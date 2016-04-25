@@ -1,5 +1,4 @@
 <?php
-
 class GratzException extends Exception
 {
     // Redefine the exception so message isn't optional

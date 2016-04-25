@@ -1,5 +1,4 @@
 <?php require 'include/ErrorHandling.php' ?>
-<?php require 'config/sql/CreateDbSchema.php'; ?>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -61,9 +60,11 @@
         {
             if (!isset($_POST['SQLUserName']) || !is_string($_POST['SQLUserName']) || (strlen($_POST['SQLUserName']) === 0))
             {
-                throw new GratzException('No SQL user name specified');
+                throw new GratzException("No SQL user name specified");
             }
-            CreateDbSchema();
+            require 'config/sql/DbSchemaCreator.php';
+            $db_schema_creator = new DbSchemaCreator();
+            $db_schema_creator->CreateDbSchema("config/sql");
         }
         else
         {
@@ -71,7 +72,7 @@
         <form method="POST">
             <div>
                 <div><label accesskey="U" for="SQLUserName">SQL user name:</label></div>
-                <div><input type="text" id="SQLUserName" name="SQLUserName" autofocus  /></div>
+                <div><input type="text" id="SQLUserName" name="SQLUserName" autofocus required /></div>
             </div>
             <div>
                 <div><label accesskey="P" for="SQLPassword">SQL password:</label></div>
