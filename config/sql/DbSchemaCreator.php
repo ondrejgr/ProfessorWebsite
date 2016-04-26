@@ -3,6 +3,7 @@ require 'include/Database.php';
 
 class DbSchemaCreator
 {
+    /* @var $pdo PDO */
     private $pdo = NULL;
     private $script_dir = NULL;
     
@@ -18,6 +19,23 @@ class DbSchemaCreator
         }
     }
 
+    private function ProcessFile($filename)
+    {
+        if (is_file($filename))
+        {
+            try
+            {
+                $this->pdo->exec(file_get_contents($filename));
+                $this->PutMsg("Executing \"" . $filename . "\"...OK");
+            } 
+            catch (Exception $ex) 
+            {
+                $errmsg = $ex->getMessage();
+                throw new Exception("Executing \"" .$filename . "\" script...ERROR: " . $errmsg . ".");
+            }
+        }
+    }
+    
     private function ProcessFiles($filenames)
     {
         if (!is_array($filenames) || (count($filenames) == 0)) 
@@ -27,16 +45,7 @@ class DbSchemaCreator
 
         foreach ($filenames as $filename)
         {
-            try
-            {
-                ## TODO: execute;
-                $this->PutMsg("Executing \"" . $filename . "\"...OK");
-            } 
-            catch (Exception $ex) 
-            {
-                $errmsg = $ex->getMessage();
-                throw new Exception("Executing \"" .$filename . "\" script...ERROR: " . $errmsg . ".");
-            }
+            $this->ProcessFile($filename);
         }
     }
     
@@ -54,11 +63,11 @@ class DbSchemaCreator
         }
     }
     
-    private function OpenDbConnection()
+    private function OpenDbConnection($userName, $password)
     {
         try
         {
-            $pdo = Database::GetPDO();
+            $pdo = Database::GetPDO($userName, $password);
             $this->PutMsg("Opening database connection...OK");
             
             return $pdo;
@@ -87,15 +96,20 @@ class DbSchemaCreator
         $this->script_dir = $script_dir;
     }
     
-    function CreateDbSchema($script_dir)
+    function CreateDbSchema($userName, $password, $script_dir)
     {
+        if (!is_string($userName) || (strlen($userName) === 0))
+        {
+            throw new GratzException("No SQL user name specified");
+        }
+
         $this->SetScriptDir($script_dir);
         
         echo "\n        <ul id=\"results\">\n";
         $this->PutMsg("Database schema creation starting...");
         try
         {
-            $this->pdo = $this->OpenDbConnection();
+            $this->pdo = $this->OpenDbConnection($userName, $password);
             $this->ProcessScripts();
             $this->PutMsg("Database schema creation finished.");
         } 

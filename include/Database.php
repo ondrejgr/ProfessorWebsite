@@ -1,10 +1,14 @@
 <?php
-require_once 'config/Configuration.php';
+if (!is_file('config/Configuration.php')) 
+{
+    throw new Exception("Configuration file not found");
+}
+require_once('config/Configuration.php');
 
 abstract class Database
 {
     /**
-    * @return \PDO
+    * @return PDO
     */
     static public function GetPDO($userName = NULL, $password = NULL)
     {
@@ -21,8 +25,8 @@ abstract class Database
         
         $connectionString = "mysql:host=" . $serverName . ";dbname=" . $databaseName;
         
-        $pdo = new \PDO($connectionString, $userName, $password);
-        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $pdo = new PDO($connectionString, $userName, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $pdo;
     }
 }

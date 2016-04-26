@@ -62,9 +62,17 @@
             {
                 throw new GratzException("No SQL user name specified");
             }
+            $userName = filter_input(INPUT_POST, 'SQLUserName');
+            
+            if (!isset($_POST['SQLPassword']) || !is_string($_POST['SQLPassword']))
+            {
+                throw new GratzException("No SQL password specified");
+            }
+            $password =  filter_input(INPUT_POST, 'SQLPassword');
+            
             require 'config/sql/DbSchemaCreator.php';
             $db_schema_creator = new DbSchemaCreator();
-            $db_schema_creator->CreateDbSchema("config/sql");
+            $db_schema_creator->CreateDbSchema($userName, $password, "config/sql");
         }
         else
         {
@@ -72,7 +80,7 @@
         <form method="POST">
             <div>
                 <div><label accesskey="U" for="SQLUserName">SQL user name:</label></div>
-                <div><input type="text" id="SQLUserName" name="SQLUserName" autofocus required /></div>
+                <div><input type="text" id="SQLUserName" name="SQLUserName" value="ba072f630cdf08" autofocus required /></div>
             </div>
             <div>
                 <div><label accesskey="P" for="SQLPassword">SQL password:</label></div>
