@@ -70,7 +70,7 @@
             }
             $password =  filter_input(INPUT_POST, 'SQLPassword');
             
-            require 'config/sql/DbSchemaCreator.php';
+            include 'config/sql/DbSchemaCreator.php';
             $db_schema_creator = new DbSchemaCreator();
             $db_schema_creator->CreateDbSchema($userName, $password, "config/sql");
         }

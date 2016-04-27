@@ -1,5 +1,5 @@
 <?php
-require 'include/Database.php';
+include 'include/Database.php';
 
 class DbSchemaCreator
 {
@@ -31,7 +31,7 @@ class DbSchemaCreator
             catch (Exception $ex) 
             {
                 $errmsg = $ex->getMessage();
-                throw new Exception("Executing \"" .$filename . "\" script...ERROR: " . $errmsg . ".");
+                throw new Exception("Executing \"" .$filename . "\" script...ERROR: " . $errmsg);
             }
         }
     }
@@ -59,7 +59,7 @@ class DbSchemaCreator
         catch (Exception $ex) 
         {
             $errmsg = $ex->getMessage();
-            throw new Exception("Reading SQL scripts...ERROR: " . $errmsg . ".");
+            throw new Exception("Reading SQL scripts...ERROR: " . $errmsg);
         }
     }
     
@@ -75,7 +75,7 @@ class DbSchemaCreator
         catch (Exception $ex) 
         {
             $errmsg = $ex->getMessage();
-            throw new Exception("Opening database connection...ERROR: " . $errmsg . ".");
+            throw new Exception("Opening database connection...ERROR: " . $errmsg);
         }
     }
     
