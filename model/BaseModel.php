@@ -1,10 +1,13 @@
 <?php
 namespace gratz;
+include "model/NavItem.php";
 
 class BaseModel {
     /* @var $pdo PDO */
     protected $pdo = NULL;
     protected $cmdGetDbInfoItem;
+    
+    public $navItems = array();
     
     public $lang = 'en';
     function setLang($lang)
@@ -12,39 +15,102 @@ class BaseModel {
         $this->lang = $lang;
     }
     
-    public $title;
-    function setTitle($title)
+    public $pageName = '';
+    function setPageName($pageName)
     {
-        $this->title = $title;
+        $this->pageName = $pageName;
+    }
+    
+    public $webTitle = '';
+    function setWebTitle($webTitle)
+    {
+        $this->webTitle = $webTitle;
+    }
+    
+    private $pageTitle = '';
+    function setPageTitle($pageTitle)
+    {
+        $this->pageTitle = $pageTitle;
+    }
+
+    function getTitle()
+    {
+        if (is_string($this->pageTitle) && strlen($this->pageTitle) > 0)
+        {
+            return $this->webTitle . " | " . $this->pageTitle;
+        }
+        else
+        {
+            return $this->webTitle;
+        }            
+    }
+    
+    protected function LoadNavItems()
+    {
+        $sth = $this->pdo->query("SELECT Name, Title, NavIndex, CONCAT('index.php?view=', Name) Url FROM Pages ORDER BY NavIndex", \PDO::FETCH_CLASS, "\gratz\NavItem");
+        if (!$sth)
+        {
+            throw new \Exception("Unable to load NavItems");
+        }
+
+        while ($navItem = $sth->fetch())
+        {
+            $this->navItems[] = $navItem;
+        }
+        $sth->closeCursor();
+    }
+    
+    protected function LoadPageData()
+    {
+        $sth = $this->pdo->prepare("SELECT Name, Title FROM Pages WHERE Name = :Name;");
+        $sth->execute(array(':Name' => $this->pageName));
+        
+        $pageData = $sth->fetch(\PDO::FETCH_OBJ);
+        if (!$pageData)
+        {
+            throw new \Exception("No data found for requested page");
+        }
+        
+        $this->setPageTitle($pageData->Title);
+
+        $sth->closeCursor();
     }
     
     protected function LoadData()
     {
-        
+        $this->setWebTitle($this->GetDbInfoItem('Title'));
+        if (is_string($this->pageName) && (strlen($this->pageName) > 0)) 
+        {
+            $this->LoadPageData();
+        }
+        $this->LoadNavItems();
     }
     
     protected function GetDbInfoItem($key)
     {
-        if (!isset($key) || !is_string($key) || (strlen($key) == 0))
+        if (!is_string($key) || (strlen($key) == 0))
         {
-            throw new Exception("No valid key parameter has been passed to GetDbInfoItem method");
+            throw new \Exception("No valid key parameter has been passed to GetDbInfoItem method");
         }
-
+        $this->cmdGetDbInfoItem->execute(array(':InfoKey' => $key));
+        $value = $this->cmdGetDbInfoItem->fetchColumn();
+        $this->cmdGetDbInfoItem->closeCursor();
+        if ($value && is_string($value))
+        {
+            return $value;
+        }
+        else
+        {
+            return '';
+        }
     }
     
     private function OpenDbConnection()
     {
-        try
-        {
-            $this->pdo = \Database::GetPDO();
-        } 
-        catch (Exception $ex) 
-        {
-            $errmsg = $ex->getMessage();
-            throw new Exception("Model was unable to open database connection: " . $errmsg);
-        }
-        
+        $this->pdo = \Database::GetPDO();
         $this->cmdGetDbInfoItem = $this->pdo->prepare("SELECT InfoValue FROM DbInfo WHERE InfoKey = :InfoKey;");
+        if ($this->GetDbInfoItem('DbVersion') != 'GRATZ-AAA')
+            throw new \GratzException("Invalid database version");
     }
     
     private function CloseDbConnection()
@@ -53,8 +119,10 @@ class BaseModel {
         $this->pdo = NULL;
     }
     
-    public function __construct() 
+    public function __construct($pageName) 
     {
+        $this->pageName = $pageName;
+        
         $this->OpenDbConnection();
         $this->LoadData();
     }

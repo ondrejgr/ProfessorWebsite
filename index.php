@@ -2,48 +2,57 @@
 <?php
     try
     {
-        include 'mvc.php'; 
-        $mvc = new mvc();
-        $mvc->DispatchRequest();
+        function GetViewNames()
+        {
+            $viewNames = array();
+            
+            $fileNames = glob("view/" . "*View.php");    
+            if (!is_array($fileNames) || (count($fileNames) == 0)) 
+            {
+                throw new \Exception("No views found");
+            }
+                    
+            foreach ($fileNames as $fileName)
+            {
+                if (is_file($fileName))
+                {
+                    $viewNames[] = substr($fileName, 5, strlen($fileName) - 13);
+                }
+            }
+            
+            return $viewNames;
+        }
         
-        /* @var $model BaseModel */
-        $model = $mvc->model;
-        /* @var $view BaseView */
-        $view = $mvc->view;
-        /* @var $controller BaseController */
-        $controller = $mvc->controller;
+        function DispatchRequest()
+        {
+            if (isset($_GET['view']) && is_string($_GET['view']))
+            {
+                $viewName = filter_input(INPUT_GET, 'view');
+            }
+            else 
+            {
+                $viewName = "AboutMe";
+            }
+            
+            if (!isset($viewName) || !is_string($viewName) || strlen($viewName) == 0) 
+            {
+                throw new \GratzException("No view name specified");
+            }
+            
+            $viewNames = GetViewNames();
+            if (!in_array($viewName, $viewNames)) 
+            {
+                throw new \GratzException("Requested view was not found");
+            }
+
+            $viewFileName = "view/" . $viewName . "View.php";
+            include $viewFileName;
+        }
+        
+        DispatchRequest();
     }
-    catch (Exception $ex) 
+    catch (\Exception $ex) 
     {
         $message = $ex->getMessage();
         include 'include/FatalError.php';
     }
-?>
-<!DOCTYPE html>
-
-<html <?php echo "lang=\"$model->lang\"" ?>>
-    <head>
-        <meta charset="UTF-8">
-        <title><?php echo $model->title ?></title>
-        <link rel="stylesheet" href="style/main.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-    </head>
-    <body>
-<?php
-    try
-    {
-        $view->RenderBody();
-    } 
-    catch (GratzException $ex) 
-    {
-        $message = $ex->getMessage();
-        echo "        <p class=\"error\">$message.</p>\n";
-    }
-    catch (Exception $ex) 
-    {
-        $message = $ex->getMessage();
-        echo "        <p class=\"error\">Internal server error occurred: $message.</p>\n";
-    }
-?>
-    </body>
-</html>

@@ -8,7 +8,7 @@ class BaseController {
     {
         if (is_null($model) || !($model instanceof \gratz\BaseModel))
         {
-            throw new Exception("No valid model instance has been passed to controler");
+            throw new \Exception("No valid model instance has been passed to controler");
         }
         $this->model = $model;
     }
