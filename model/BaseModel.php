@@ -1,6 +1,7 @@
 <?php
 namespace gratz;
 include "model/NavItem.php";
+include "model/Person.php";
 
 class BaseModel {
     /* @var $pdo PDO */
@@ -8,6 +9,7 @@ class BaseModel {
     protected $cmdGetDbInfoItem;
     
     public $navItems = array();
+    public $person;
     
     public $lang = 'en';
     function setLang($lang)
@@ -45,9 +47,26 @@ class BaseModel {
         }            
     }
     
+    protected function LoadPerson()
+    {
+        $sth = $this->pdo->query("SELECT FirstName, LastName, FullName, UniversityName, FacultyName, Password FROM DbInfoView;", \PDO::FETCH_CLASS, "\gratz\Person");
+        if (!$sth)
+        {
+            throw new \Exception("Unable to load personal information");
+        }
+
+        $this->person = $sth->fetch();
+        $sth->closeCursor();
+       
+        if (!is_a($this->person, "\gratz\Person")) 
+        {
+            throw new \Exception("Personal information was not found in database");
+        }
+    }
+    
     protected function LoadNavItems()
     {
-        $sth = $this->pdo->query("SELECT Name, Title, NavIndex, CONCAT('index.php?view=', Name) Url FROM Pages ORDER BY NavIndex", \PDO::FETCH_CLASS, "\gratz\NavItem");
+        $sth = $this->pdo->query("SELECT Name, Title, NavIndex, CONCAT('index.php?view=', Name) Url FROM Pages ORDER BY NavIndex;", \PDO::FETCH_CLASS, "\gratz\NavItem");
         if (!$sth)
         {
             throw new \Exception("Unable to load NavItems");
@@ -79,6 +98,7 @@ class BaseModel {
     protected function LoadData()
     {
         $this->setWebTitle($this->GetDbInfoItem('Title'));
+        $this->LoadPerson();
         if (is_string($this->pageName) && (strlen($this->pageName) > 0)) 
         {
             $this->LoadPageData();
@@ -110,7 +130,9 @@ class BaseModel {
         $this->pdo = \Database::GetPDO();
         $this->cmdGetDbInfoItem = $this->pdo->prepare("SELECT InfoValue FROM DbInfo WHERE InfoKey = :InfoKey;");
         if ($this->GetDbInfoItem('DbVersion') != 'GRATZ-AAA')
+        {
             throw new \GratzException("Invalid database version");
+        }
     }
     
     private function CloseDbConnection()

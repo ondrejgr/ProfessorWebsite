@@ -5,10 +5,8 @@ include 'view/BaseView.php';
 
 class AboutMeView extends BaseView 
 {
-    protected function OnGenerateBody()
-    {
+
     
-    }
 }
 
 $model = new \gratz\BaseModel("AboutMe");

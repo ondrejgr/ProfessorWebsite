@@ -4,4 +4,117 @@
         font-weight: bold;
         font-size: 1.5em;
     }
+
+    body
+    {
+        font-family: Verdana, Arial;
+        font-size: 1.1em;
+        font-weight: bold;
+    }
+    
+    header
+    {
+        display: box;
+        position: fixed;
+        left: .5em;
+        top: .5em;
+        width: 11em;
+        height: 14em;
+        border-radius: 25px 0px 0px 0px;
+        background-color: lightblue;
+    }
+    
+    main
+    {
+        display: box;
+        position: absolute;
+        left: 12.5em;
+        top: 3.5em;
+    }
+    
+    nav
+    {
+        display: box;
+        position: fixed;
+        padding: .75em 1em 5em 2em;
+        left: .5em;
+        top: 14.5em;
+        width: 8em;
+        height: auto;
+        list-style: none;
+        background: lightblue; /* For browsers that do not support gradients */
+        background: -webkit-linear-gradient(lightblue, white); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(lightblue, white); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(lightblue, white); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(lightblue, white); /* Standard syntax */
+    }
+    
+    #universityName
+    {
+        position: fixed;
+        padding: .5em 8em 0.5em .5em;
+        left: 11.5em;
+        top: .5em;
+        height: 2em;
+        width: auto;
+        overflow: hidden;
+        white-space: nowrap;
+        background: lightblue; 
+        background: -webkit-linear-gradient(90deg, lightblue, white); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(90deg, lightblue, white); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(90deg, lightblue, white); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(90deg, lightblue, white); /* Standard syntax */
+    }
+
+    #fullName
+    {
+        position: fixed;
+        display: box;
+        padding: 0em .5em 0em .5em;
+        font-size: 1.5em;
+        top: 7em;
+        width: 7em;
+    }
+
+    #portrait
+    {
+        position: fixed;
+        height: 8em;
+        width: 8em;
+        margin: 1em 1em 1em 1em;
+        border-radius: 25px;
+        background-size: 8em 8em;
+        background-image: url('../img/portrait_small.png');
+    }
+
+    .active-nav-item
+    {
+        list-style: disc;
+        color: yellow;
+    }
+    
+    nav a
+    {
+        display: list-item;
+        margin-bottom: .5em;
+        color: navy;
+        text-decoration: none;
+    }
+    
+    nav a:active
+    {
+        color: lightblue;
+    }
+    
+    nav a:hover
+    {
+        color: blue;
+        text-decoration: underline;
+    }
+    
+    nav a:visited
+    {
+        
+    }
+    
     

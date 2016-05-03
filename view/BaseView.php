@@ -52,7 +52,7 @@ abstract class BaseView {
     {
         try
         {
-            $this->OnGenerateHead();             
+            $this->OnGenerateExtraHead();             
         } 
         catch (\GratzException $ex) 
         {
@@ -70,8 +70,10 @@ abstract class BaseView {
     {
         try
         {
-            $this->OnGenerateNav();
-            $this->OnGenerateBody();             
+            $this->GenerateHeader();
+            $this->GenerateNav();
+            $this->GenerateContent();
+            $this->GenerateScript();
         } 
         catch (\GratzException $ex) 
         {
@@ -85,29 +87,81 @@ abstract class BaseView {
         }
     }
     
-    protected function OnGenerateNav()
+    private function GenerateHeader()
     {
 ?>
-        <div id="nav">
-            <nav>
+        <header>
 <?php
+            $this->OnGenerateHeader();
+?>
+        </header>
+<?php
+    }
+   
+    private function GenerateNav()
+    {
+?>
+        <nav>
+<?php
+                $this->OnGenerateNav();
+?>                
+        </nav>
+<?php
+    }
+
+    private function GenerateContent()
+    {
+?>
+        <main>
+<?php
+            $this->OnGenerateContent();
+?>
+        </main>
+<?php
+    }
+    
+    private function GenerateScript()
+    {
+?>
+        <script>
+            $(document).ready(
+    function()
+    {
+        var obj = $("nav").find("a[data-view-name='<?php echo $this->model->pageName ?>']");
+        if (obj)
+            obj.addClass("active-nav-item");
+        
+        return false;
+    });
+        </script>
+<?php
+    }
+    
+    protected function OnGenerateExtraHead()
+    {
+    }
+
+    protected function OnGenerateHeader()
+    {
+?>
+            <div id="portrait"></div>
+            <div id="fullName"><?php echo $this->model->person->FullName ?></div>
+            <div id="universityName"><?php echo $this->model->person->UniversityName . "|" . $this->model->person->FacultyName ?></div>
+<?php
+    }
+    
+    protected function OnGenerateNav()
+    {
         foreach($this->model->navItems as $navItem)
         {
-            echo "                <a href=\"$navItem->Url\" title=\"$navItem->Title\">$navItem->Title</a>\n";
+            echo "                <a href=\"$navItem->Url\" title=\"$navItem->Title\" data-view-name=\"$navItem->Name\">$navItem->Title</a>\n";
         }
-?>                
-            </nav>
-        </div>
+    }
+    
+    protected function OnGenerateContent()
+    {
+?>
+            <p>geegegage</p>
 <?php
-    }
-    
-    protected function OnGenerateHead()
-    {
-        
-    }
-    
-    protected function OnGenerateBody()
-    {
-    
     }
 }
