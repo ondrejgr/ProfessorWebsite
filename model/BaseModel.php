@@ -29,7 +29,7 @@ class BaseModel {
         $this->webTitle = $webTitle;
     }
     
-    private $pageTitle = '';
+    public $pageTitle = '';
     function setPageTitle($pageTitle)
     {
         $this->pageTitle = $pageTitle;
