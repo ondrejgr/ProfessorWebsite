@@ -122,6 +122,9 @@ abstract class BaseView {
 ?>
             </div>
         </main>
+        <footer>
+            <p>&copy;&nbsp;<?php echo '<a href="mailto:' . $this->model->person->Email . '" title="' . $this->model->person->FullName . '">' . $this->model->person->FullName . '</a>' ?> 2016</p>
+        </footer>
 <?php
     }
     
@@ -151,7 +154,7 @@ abstract class BaseView {
 ?>
             <div id="portrait"></div>
             <div id="fullName"><?php echo $this->model->person->FullName ?></div>
-            <div id="universityName"><?php echo $this->model->person->UniversityName . "|" . $this->model->person->FacultyName ?></div>
+            <!--<div id="universityName"><?php echo $this->model->person->UniversityName . "|" . $this->model->person->FacultyName ?></div>-->
 <?php
     }
     

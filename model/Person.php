@@ -14,4 +14,5 @@ class Person
     public $UniversityName;
     public $FacultyName;
     public $Password;
+    public $Email;
 }

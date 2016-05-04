@@ -7,16 +7,17 @@
 
     body
     {
-        position: fixed;
         font-family: Verdana, Arial;
         font-size: 1.1em;
         font-weight: bold;
+        height: auto;
+        width: auto;
+        overflow: auto;
     }
     
     header
     {
-        display: box;
-        position: fixed;
+        position: absolute;
         left: .5em;
         top: .5em;
         width: 11em;
@@ -27,13 +28,13 @@
     
     nav
     {
-        display: box;
-        position: fixed;
+        position: absolute;
         padding: .75em 1em 5em 2em;
         left: .5em;
         top: 14.5em;
         width: 8em;
         height: auto;
+        float: left;
         list-style: none;
         background: lightblue; /* For browsers that do not support gradients */
         background: -webkit-linear-gradient(lightblue, white); /* For Safari 5.1 to 6.0 */
@@ -44,7 +45,7 @@
     
     #universityName
     {
-        position: fixed;
+        position: absolute;
         padding: .5em 8em 0.5em .5em;
         left: 11.5em;
         top: .5em;
@@ -61,8 +62,7 @@
 
     #fullName
     {
-        position: fixed;
-        display: box;
+        position: absolute;
         padding: 0em .5em 0em .5em;
         font-size: 1.5em;
         top: 7em;
@@ -71,7 +71,7 @@
 
     #portrait
     {
-        position: fixed;
+        position: absolute;
         height: 8em;
         width: 8em;
         margin: 1em 1em 1em 1em;
@@ -83,6 +83,11 @@
     .active-nav-item
     {
         list-style: disc;
+        color: yellow;
+    }
+    
+    .active-nav-item:visited
+    {
         color: yellow;
     }
     
@@ -104,22 +109,59 @@
         color: blue;
         text-decoration: underline;
     }
+
+    nav a:hover:visited
+    {
+        color: blue;
+    }
     
     nav a:visited
     {
-        
+        color: navy;
+    }
+    
+    a
+    {
+        color: blue;
+        text-decoration: none;
+    }
+    
+    a:active
+    {
+        color: lightblue;
+    }
+    
+    a:hover
+    {
+        color: navy;
+        text-decoration: underline;
+    }
+    
+    a:visited
+    {
+        color: purple;
     }
     
     main
     {
-        display: box;
-        position: absolute;
-        left: 12.5em;
-        top: 3.5em;
-        height: 80em;
-        width: 40em;
+        background-color: green;
+        position: static;
         padding: .5em .5em .5em .5em;
-        overflow: scroll;
+        height: auto;
+        width: auto;
+        max-width: 40em;
+    }
+    
+    footer
+    {
+        position: static;
+        clear: both;
+    }
+    
+    footer p
+    {
+        font-size: .75em;
+        font-weight: normal;
     }
     
     #content

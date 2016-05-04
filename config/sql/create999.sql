@@ -7,6 +7,7 @@ INSERT IGNORE INTO DbInfo (InfoKey, InfoValue) VALUES ('LastName', 'Doe');
 INSERT IGNORE INTO DbInfo (InfoKey, InfoValue) VALUES ('UniversityName', 'Stanford University');
 INSERT IGNORE INTO DbInfo (InfoKey, InfoValue) VALUES ('FacultyName', 'Marketing and Ormond Family Faculty');
 INSERT IGNORE INTO DbInfo (InfoKey, InfoValue) VALUES ('Password', 'test');
+INSERT IGNORE INTO DbInfo (InfoKey, InfoValue) VALUES ('Email', 'jennifer.doe@no-me.com');
 
 INSERT IGNORE INTO Pages (Name, Title, NavIndex) VALUES ('AboutMe', 'About Me', 1);
 INSERT IGNORE INTO Pages (Name, Title, NavIndex) VALUES ('Research', 'Research', 2);

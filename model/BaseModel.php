@@ -49,7 +49,7 @@ class BaseModel {
     
     protected function LoadPerson()
     {
-        $sth = $this->pdo->query("SELECT FirstName, LastName, FullName, UniversityName, FacultyName, Password FROM DbInfoView;", \PDO::FETCH_CLASS, "\gratz\Person");
+        $sth = $this->pdo->query("SELECT * FROM DbInfoView;", \PDO::FETCH_CLASS, "\gratz\Person");
         if (!$sth)
         {
             throw new \Exception("Unable to load personal information");
