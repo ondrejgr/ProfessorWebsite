@@ -47,7 +47,7 @@ class BaseModel {
         }            
     }
     
-    protected function LoadPerson()
+    private function LoadPerson()
     {
         $sth = $this->pdo->query("SELECT * FROM DbInfoView;", \PDO::FETCH_CLASS, "\gratz\Person");
         if (!$sth)
@@ -64,9 +64,9 @@ class BaseModel {
         }
     }
     
-    protected function LoadNavItems()
+    private function LoadNavItems()
     {
-        $sth = $this->pdo->query("SELECT Name, Title, NavIndex, CONCAT('index.php?view=', Name) Url FROM Pages ORDER BY NavIndex;", \PDO::FETCH_CLASS, "\gratz\NavItem");
+        $sth = $this->pdo->query("SELECT Name, Title, NavIndex, CONCAT('index.php?view=', Name) Url FROM Pages WHERE NavIndex > 0 ORDER BY NavIndex;", \PDO::FETCH_CLASS, "\gratz\NavItem");
         if (!$sth)
         {
             throw new \Exception("Unable to load NavItems");
@@ -79,7 +79,7 @@ class BaseModel {
         $sth->closeCursor();
     }
     
-    protected function LoadPageData()
+    private function LoadPageData()
     {
         $sth = $this->pdo->prepare("SELECT Name, Title FROM Pages WHERE Name = :Name;");
         $sth->execute(array(':Name' => $this->pageName));
@@ -95,7 +95,7 @@ class BaseModel {
         $sth->closeCursor();
     }
     
-    protected function LoadData()
+    private function LoadData()
     {
         $this->setWebTitle($this->GetDbInfoItem('Title'));
         $this->LoadPerson();
@@ -104,8 +104,15 @@ class BaseModel {
             $this->LoadPageData();
         }
         $this->LoadNavItems();
+        $this->OnLoadData();
     }
     
+    protected function OnLoadData()
+    {
+        
+    }
+
+
     protected function GetDbInfoItem($key)
     {
         if (!is_string($key) || (strlen($key) == 0))

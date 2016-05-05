@@ -42,7 +42,7 @@
             $viewNames = GetViewNames();
             if (!in_array($viewName, $viewNames)) 
             {
-                throw new \GratzException("Requested view was not found");
+                $viewName = 'PageNotFound';
             }
 
             $viewFileName = "view/" . $viewName . "View.php";

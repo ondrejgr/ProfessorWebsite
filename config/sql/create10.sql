@@ -19,3 +19,9 @@ CREATE TABLE IF NOT EXISTS Pages (
     Title NVARCHAR(100) NOT NULL,
     NavIndex INT NOT NULL DEFAULT 0
 ) COLLATE 'utf8_czech_ci';
+
+DROP TABLE IF EXISTS ContentPages;
+CREATE TABLE IF NOT EXISTS ContentPages (
+    Name NVARCHAR(30) PRIMARY KEY NOT NULL,
+    Content TEXT NULL
+) COLLATE 'utf8_czech_ci';

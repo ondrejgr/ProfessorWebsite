@@ -12,7 +12,7 @@ if (!isset($_SESSION['IS_ADMIN']) || !is_bool($_SESSION['IS_ADMIN'])
         <title>Error 404</title>
     </head>
     <body>
-        <h1>Error 404</h1>
+        <h1>Content Not Found</h1>
         <h2>Requested resource was not found or you have no rights to access it.</h2>
     </body>
 </html>
