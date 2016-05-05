@@ -42,7 +42,7 @@
         background: -moz-linear-gradient(lightblue, white); /* For Firefox 3.6 to 15 */
         background: linear-gradient(lightblue, white); /* Standard syntax */
     }
-    
+   
     .fullName
     {
         display: block;

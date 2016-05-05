@@ -39,6 +39,7 @@ abstract class BaseView {
         <link rel="stylesheet" href="style/main.css"/>
         <link rel="stylesheet" href="style/small.css" media="screen and (max-width: 768px)"/>        
         <link rel="stylesheet" href="style/large.css" media="screen and (min-width: 768px)"/>        
+        <link rel="stylesheet" href="style/print.css" media="print"/>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <?php 
     $this->GenerateHead();             

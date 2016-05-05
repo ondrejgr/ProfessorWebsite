@@ -1,0 +1,28 @@
+    #left-bar
+    {
+        display: none;
+    }
+    
+    .fullName
+    {
+        display: block;
+        padding: 1em .5em .5em 1em;
+        font-family: Verdana, Arial;
+        font-size: 1em;
+        font-weight: bold;
+    }
+
+    .portrait
+    {
+        display: none;
+    }
+
+    footer
+    {
+        display: none;
+    }
+    
+    #navButton
+    {
+        display: none;
+    }

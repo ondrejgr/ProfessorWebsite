@@ -2,7 +2,7 @@
     {
         box-sizing: border-box;
     }
-
+    
     p.error
     {
         color: red;
@@ -41,7 +41,8 @@
     }
     /* END COMMON */            
 
-    /* BEGIN PARTS */    
+    /* BEGIN PARTS */  
+    
     #organisationName
     {
         display: block;
