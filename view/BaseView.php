@@ -43,9 +43,11 @@ abstract class BaseView {
 ?>
     </head>
     <body>
+      <div id="container">
 <?php 
     $this->GenerateBody();             
 ?>
+      </div>
     </body>
 </html>
 <?php
@@ -55,7 +57,7 @@ abstract class BaseView {
     {
         try
         {
-            $this->OnGenerateExtraHead();             
+            $this->OnGenerateHead();             
         } 
         catch (\GratzException $ex) 
         {
@@ -73,9 +75,9 @@ abstract class BaseView {
     {
         try
         {
-            $this->GenerateHeader();
-            $this->GenerateNav();
-            $this->GenerateContent();
+            $this->GenerateLeftBar();
+            $this->GenerateCenter();
+            
             $this->GenerateScript();
         } 
         catch (\GratzException $ex) 
@@ -90,41 +92,79 @@ abstract class BaseView {
         }
     }
     
-    private function GenerateHeader()
+    private function GenerateLeftBar()
+    {
+?>            
+        <div id="left-bar">
+<?php
+            $this->GenerateNavHeader();
+            $this->GenerateNav();
+?>      
+        </div>
+<?php
+    }
+    
+    private function GenerateCenter()
+    {
+?>            
+        <div id="center">
+<?php
+            $this->GenerateContentHeader();
+            $this->GenerateContent();
+            $this->GenerateContentFooter();
+?>      
+        </div>
+        <div id="footer"></div>
+<?php
+    }
+    
+    private function GenerateNavHeader()
     {
 ?>
-        <header>
-<?php
-            $this->OnGenerateHeader();
-?>
-        </header>
+            <header>
+                <div id="portrait"><img src="img/portrait_small.png" alt="<?php echo $this->model->person->FullName ?>" /></div>
+                <div id="fullName"><?php echo $this->model->person->FullName ?></div>
+            </header>
 <?php
     }
    
     private function GenerateNav()
     {
 ?>
-        <nav>
+            <nav>
 <?php
                 $this->OnGenerateNav();
 ?>                
-        </nav>
+            </nav>
 <?php
     }
 
+    private function GenerateContentHeader()
+    {
+?>
+            <header>
+                <div id="universityName"><?php echo $this->model->person->UniversityName . "|" . $this->model->person->FacultyName ?></div>
+            </header>
+<?php
+    }
+    
     private function GenerateContent()
     {
 ?>
-        <main>
-            <div id="content">
+            <main>
 <?php
-            $this->OnGenerateContent();
+                $this->OnGenerateContent();
 ?>
-            </div>
-        </main>
-        <footer>
-            <p>&copy;&nbsp;<?php echo '<a href="mailto:' . $this->model->person->Email . '" title="' . $this->model->person->FullName . '">' . $this->model->person->FullName . '</a>' ?> 2016</p>
-        </footer>
+            </main>
+<?php
+    }
+    
+    private function GenerateContentFooter()
+    {
+?>
+            <footer>
+                <p>&copy;&nbsp;<?php echo '<a href="mailto:' . $this->model->person->Email . '" title="' . $this->model->person->FullName . '">' . $this->model->person->FullName . '</a>' ?> 2016</p>
+            </footer>
 <?php
     }
     
@@ -145,21 +185,14 @@ abstract class BaseView {
 <?php
     }
     
-    protected function OnGenerateExtraHead()
+    protected function OnGenerateHead()
     {
-    }
-
-    protected function OnGenerateHeader()
-    {
-?>
-            <div id="portrait"></div>
-            <div id="fullName"><?php echo $this->model->person->FullName ?></div>
-            <!--<div id="universityName"><?php echo $this->model->person->UniversityName . "|" . $this->model->person->FacultyName ?></div>-->
-<?php
     }
     
     protected function OnGenerateNav()
     {
+?>
+<?php
         foreach($this->model->navItems as $navItem)
         {
             echo "                <a href=\"$navItem->Url\" title=\"$navItem->Title\" data-view-name=\"$navItem->Name\">$navItem->Title</a>\n";

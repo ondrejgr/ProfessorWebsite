@@ -7,35 +7,109 @@
 
     body
     {
-        font-family: Verdana, Arial;
-        font-size: 1.1em;
-        font-weight: bold;
-        height: auto;
-        width: auto;
-        overflow: auto;
+        font-family: Times New Roman;
+        font-size: 1em;
+        font-weight: normal;
     }
     
-    header
+/* BEGIN COMMON */        
+    a
     {
-        position: absolute;
-        left: .5em;
-        top: .5em;
-        width: 11em;
-        height: 14em;
+        color: blue;
+        text-decoration: none;
+    }
+    
+    a:active
+    {
+        color: lightblue;
+    }
+    
+    a:hover
+    {
+        color: navy;
+        text-decoration: underline;
+    }
+    
+    a:visited
+    {
+        color: purple;
+    }
+/* END COMMON */            
+        
+/* BEGIN PARTS */    
+    #universityName
+    {
+        display: block;
+        padding: .5em 8em 0.5em .5em;
+        overflow: hidden;
+        white-space: nowrap;
+        font-family: Verdana, Arial;
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+
+    #fullName
+    {
+        display: block;
+        padding: 0em .5em .5em 1em;
+        margin: 0em;
+        font-family: Verdana, Arial;
+        font-size: 1.4em;
+        font-weight: bold;
+    }
+
+    #portrait
+    {
+        display: block;
+        text-align: center;
+        padding: 1em 0em .5em 0em;
+        height: auto;
+        width: auto;
+    }
+    
+    #portrait img
+    {
+        border-radius: 25px;
+        height: 6em;
+        width: 6em;
+    }
+/* END PARTS */
+
+/* BEGIN MAIN LAYOUT */
+    #container
+    {
+        display: table;
+    }
+    
+    #left-bar
+    {
+        display: table-cell;
+        vertical-align: top;
+    }
+    
+    #center
+    {
+        display: table-cell;
+        vertical-align: top;
+        min-width: 20em;
+        max-width: 45em;        
+    }
+   
+    #footer
+    {
+        display: block;
+    }
+/* END MAIN LAYOUT */
+
+    #left-bar header
+    {
         border-radius: 25px 0px 0px 0px;
         background-color: lightblue;
     }
     
-    nav
+    #left-bar nav
     {
-        position: absolute;
         padding: .75em 1em 5em 2em;
-        left: .5em;
-        top: 14.5em;
-        width: 8em;
-        height: auto;
-        float: left;
-        list-style: none;
         background: lightblue; /* For browsers that do not support gradients */
         background: -webkit-linear-gradient(lightblue, white); /* For Safari 5.1 to 6.0 */
         background: -o-linear-gradient(lightblue, white); /* For Opera 11.1 to 12.0 */
@@ -43,59 +117,19 @@
         background: linear-gradient(lightblue, white); /* Standard syntax */
     }
     
-    #universityName
+    nav
     {
-        position: absolute;
-        padding: .5em 8em 0.5em .5em;
-        left: 11.5em;
-        top: .5em;
-        height: 2em;
-        width: auto;
-        overflow: hidden;
-        white-space: nowrap;
-        background: lightblue; 
-        background: -webkit-linear-gradient(90deg, lightblue, white); /* For Safari 5.1 to 6.0 */
-        background: -o-linear-gradient(90deg, lightblue, white); /* For Opera 11.1 to 12.0 */
-        background: -moz-linear-gradient(90deg, lightblue, white); /* For Firefox 3.6 to 15 */
-        background: linear-gradient(90deg, lightblue, white); /* Standard syntax */
-    }
-
-    #fullName
-    {
-        position: absolute;
-        padding: 0em .5em 0em .5em;
-        font-size: 1.5em;
-        top: 7em;
-        width: 7em;
-    }
-
-    #portrait
-    {
-        position: absolute;
-        height: 8em;
-        width: 8em;
-        margin: 1em 1em 1em 1em;
-        border-radius: 25px;
-        background-size: 8em 8em;
-        background-image: url('../img/portrait_small.png');
-    }
-
-    .active-nav-item
-    {
-        list-style: disc;
-        color: yellow;
-    }
-    
-    .active-nav-item:visited
-    {
-        color: yellow;
+        list-style: none;
     }
     
     nav a
     {
         display: list-item;
-        margin-bottom: .5em;
+        margin: 0em .5em .5em 0em;        
         color: navy;
+        font-family: Verdana, Arial;
+        font-size: 1.2em;
+        font-weight: bold;
         text-decoration: none;
     }
     
@@ -120,57 +154,33 @@
         color: navy;
     }
     
-    a
+    .active-nav-item
     {
-        color: blue;
-        text-decoration: none;
+        list-style: disc;
+        color: yellow;
     }
     
-    a:active
+    .active-nav-item:visited
     {
-        color: lightblue;
+        color: yellow;
     }
-    
-    a:hover
+/* END NAV */
+
+/* BEGIN MAIN */
+    #center header
     {
-        color: navy;
-        text-decoration: underline;
-    }
-    
-    a:visited
-    {
-        color: purple;
-    }
-    
-    main
-    {
-        background-color: green;
-        position: static;
-        padding: .5em .5em .5em .5em;
-        height: auto;
-        width: auto;
-        max-width: 40em;
-    }
-    
-    footer
-    {
-        position: static;
-        clear: both;
-    }
-    
-    footer p
-    {
-        font-size: .75em;
-        font-weight: normal;
-    }
-    
-    #content
-    {
-        background-color: yellow;
-        height: auto;
-        width: auto;
+        background: lightblue; 
+        background: -webkit-linear-gradient(90deg, lightblue, white); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(90deg, lightblue, white); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(90deg, lightblue, white); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(90deg, lightblue, white); /* Standard syntax */
     }
 
+    #center main
+    {
+        padding: 1em 1.5em 1em 1.5em;
+    }
+        
     main h1
     {
         font-family: Verdana, Arial;
@@ -186,3 +196,23 @@
         font-size: 1em;
         font-weight: normal;
     }
+/* END MAIN */
+    
+/* BEGIN FOOTER */
+    footer
+    {
+        clear: both;
+        padding: .1em .75em .1em .75em;
+        background: lightblue; 
+        background: -webkit-linear-gradient(lightblue, white); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(lightblue, white); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(lightblue, white); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(lightblue, white); /* Standard syntax */
+    }
+    
+    footer p
+    {
+        font-family: Verdana, Arial;
+        font-size: .75em;
+    }
+/* END FOOTER */
