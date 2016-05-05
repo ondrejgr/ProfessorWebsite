@@ -20,6 +20,13 @@ class ContentModel extends \gratz\BaseModel {
         $this->content = $content;
     }
     
+    public function updateContent($content)
+    {
+        $sth = $this->pdo->prepare("INSERT INTO ContentPages (Name, Content) VALUES (:Name, :Content) ON DUPLICATE KEY UPDATE Content = :Content;");
+        $sth->execute(array(':Name' => $this->pageName, ':Content' => $content));
+        $this->setContent($content);
+   }
+    
     protected function OnLoadData()
     {
         $sth = $this->pdo->prepare("SELECT Content FROM ContentPages WHERE Name = :Name;");

@@ -16,7 +16,7 @@ class BaseController {
   
     public function ProcessPOST()
     {
-        
+        throw new \Exception("POST operation is not implemented");        
     }
     
     public function ProcessGET()

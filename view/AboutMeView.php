@@ -15,7 +15,7 @@ class AboutMeView extends BaseView
     {
         if (is_string($this->model->content) && strlen($this->model->content) > 0)
         {
-            $array = explode('\n', $this->model->content);
+            $array = explode("\n", str_replace("\r", '', $this->model->content));
             if ($array)
             {
                 foreach ($array as $item)

@@ -18,7 +18,6 @@ INSERT IGNORE INTO Pages (Name, Title, NavIndex) VALUES ('Publications', 'Public
 INSERT IGNORE INTO Pages (Name, Title, NavIndex) VALUES ('Teaching', 'Teaching', 4);
 INSERT IGNORE INTO Pages (Name, Title, NavIndex) VALUES ('Gallery', 'Gallery', 5);
 INSERT IGNORE INTO Pages (Name, Title, NavIndex) VALUES ('Contact', 'Contact', 6);
-INSERT IGNORE INTO Pages (Name, Title, NavIndex) VALUES ('DownloadCV', 'Download CV', 7);
 
 INSERT IGNORE INTO Pages (Name, Title, NavIndex, IsAdmin) VALUES ('Logout', 'Logout', 8, 1);
 

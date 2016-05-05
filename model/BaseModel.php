@@ -89,12 +89,18 @@ class BaseModel {
     
     private function LoadNavItems()
     {
+        $this->navItems = array();
         $adminFilter = '';
         if (!$this->IsAdminLoggedIn())
         {
             $adminFilter = ' AND IsAdmin = 0';
+            $url = 'Name';
         }
-        $sth = $this->pdo->query("SELECT Name, Title, NavIndex, CONCAT('index.php?view=', Name) Url FROM Pages WHERE NavIndex > 0" . $adminFilter . " ORDER BY NavIndex;", 
+        else
+        {
+            $url = "Name, CASE WHEN IsAdmin = 0 THEN 'Edit' ELSE '' END";
+        }
+        $sth = $this->pdo->query("SELECT Name, Title, NavIndex, IsAdmin, CONCAT('index.php?view=', " . $url . ") Url FROM Pages WHERE NavIndex > 0" . $adminFilter . " ORDER BY NavIndex;", 
                     \PDO::FETCH_CLASS, "\gratz\NavItem");
         if (!$sth)
         {
@@ -177,9 +183,13 @@ class BaseModel {
         $this->pdo = NULL;
     }
     
+    public function Refresh()
+    {
+        $this->LoadData();
+    }
+    
     public function RefreshNavItems()
     {
-        $this->navItems = array();
         $this->LoadNavItems();
     }
     

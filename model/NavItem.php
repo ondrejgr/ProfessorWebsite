@@ -7,4 +7,5 @@ class NavItem
     public $Title;
     public $NavIndex;
     public $Url;
+    public $IsAdmin;
 }

@@ -11,56 +11,6 @@ class LoginView extends BaseView
     {
         parent::__construct($model, $controller);
     }
-
-    protected function OnGenerateHead()
-    {
-?>
-        <style>
-            #results
-            {
-            }
-            .result_error
-            {
-                color: red;
-                font-size: 1em;
-            }
-            .result_success
-            {
-                color: blue;
-                font-size: 1em;
-            }
-            p.error
-            {
-                color: red;
-                font-weight: bold;
-                font-size: 1.5em;
-            }
-            form
-            {
-                display: table;
-                padding: 0.5em;
-                border: solid silver;
-            }
-            form div
-            {
-                display: table-row;
-                padding: 0.25em;
-            }
-            form div div
-            {
-                display: table-cell;
-            }
-            input[type=submit]
-            {
-                width: 10em;
-            }
-            input[type=reset]
-            {
-                width: 10em;
-            }
-        </style>
-<?php
-    }
     
     protected function OnGenerateContent()
     {
