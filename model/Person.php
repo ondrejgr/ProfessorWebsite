@@ -13,6 +13,5 @@ class Person
     public $FullName;
     public $UniversityName;
     public $FacultyName;
-    public $Password;
     public $Email;
 }

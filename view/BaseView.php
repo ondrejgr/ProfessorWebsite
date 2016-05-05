@@ -11,6 +11,12 @@ abstract class BaseView {
     
     protected $is_admin_required = \FALSE;
     
+    public $isPostBack = \FALSE;
+    public function setIsPostBack($isPostBack)
+    {
+        $this->isPostBack = $isPostBack;
+    }
+    
     public function __construct($model, $controller) 
     {
         if (is_null($model) || !($model instanceof \gratz\BaseModel))
@@ -30,7 +36,7 @@ abstract class BaseView {
     {
         if ($this->is_admin_required)
         {
-            return isset($_SESSION['IS_ADMIN']) && is_bool($_SESSION['IS_ADMIN']) && !$_SESSION['IS_ADMIN'];
+            return $this->model->IsAdminLoggedIn();
         }
         else
         {
@@ -44,9 +50,23 @@ abstract class BaseView {
                 <h2>Requested page was not found or you have no rights to access it.</h2>
 <?php
     }
+
+    private function ProcessMethods()
+    {
+        if (filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING) === 'POST')
+        {
+            $this->controller->ProcessPOST();
+            $this->setIsPostBack(\TRUE);
+        }
+        if (filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING) === 'GET')
+        {
+            $this->controller->ProcessGET();
+        }
+    }
     
     public function Generate()
     { 
+        $this->ProcessMethods();
 ?>
 <!DOCTYPE html>
 
@@ -231,11 +251,28 @@ abstract class BaseView {
         $("#cmdNavButton").click(function(){
             $("#left-bar").toggle();
         });
-        
+<?php
+        $this->OnGenerateScript();
+?>        
         return false;
     });
         </script>
 <?php
+    }
+    
+    public function GenerateMessages()
+    {
+        $error = $this->model->error;
+        $info = $this->model->info;
+        
+        if (is_string($error) && strlen($error) > 0)
+        {
+            echo "                <p class=\"error\">$error</p>\n";
+        }
+        if (is_string($info) && strlen($info) > 0)
+        {
+            echo "                <p class=\"info\">$info</p>\n";
+        }
     }
     
     protected function OnGenerateHead()
@@ -255,5 +292,9 @@ abstract class BaseView {
     protected function OnGenerateContent()
     {
         
+    }
+    
+    protected function OnGenerateScript()
+    {
     }
 }

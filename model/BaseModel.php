@@ -10,6 +10,19 @@ class BaseModel {
     
     public $navItems = array();
     public $person;
+   
+    
+    public $error;
+    public function setError($error)
+    {
+        $this->error = $error;
+    }
+    
+    public $info;
+    public function setInfo($info)
+    {
+        $this->info = $info;
+    }
     
     public $lang = 'en';
     function setLang($lang)
@@ -64,9 +77,25 @@ class BaseModel {
         }
     }
     
+    public function IsAdminLoggedIn()
+    {
+        if (session_status() == PHP_SESSION_NONE)
+        {
+            session_start();
+        }
+        return isset($_SESSION['IS_ADMIN']) && is_bool($_SESSION['IS_ADMIN']) && $_SESSION['IS_ADMIN'];
+    }
+   
+    
     private function LoadNavItems()
     {
-        $sth = $this->pdo->query("SELECT Name, Title, NavIndex, CONCAT('index.php?view=', Name) Url FROM Pages WHERE NavIndex > 0 ORDER BY NavIndex;", \PDO::FETCH_CLASS, "\gratz\NavItem");
+        $adminFilter = '';
+        if (!$this->IsAdminLoggedIn())
+        {
+            $adminFilter = ' AND IsAdmin = 0';
+        }
+        $sth = $this->pdo->query("SELECT Name, Title, NavIndex, CONCAT('index.php?view=', Name) Url FROM Pages WHERE NavIndex > 0" . $adminFilter . " ORDER BY NavIndex;", 
+                    \PDO::FETCH_CLASS, "\gratz\NavItem");
         if (!$sth)
         {
             throw new \Exception("Unable to load NavItems");
@@ -146,6 +175,12 @@ class BaseModel {
     {
         $this->cmdGetDbInfoItem = NULL;
         $this->pdo = NULL;
+    }
+    
+    public function RefreshNavItems()
+    {
+        $this->navItems = array();
+        $this->LoadNavItems();
     }
     
     public function __construct($pageName) 

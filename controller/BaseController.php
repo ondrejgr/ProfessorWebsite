@@ -12,4 +12,15 @@ class BaseController {
         }
         $this->model = $model;
     }
+    
+  
+    public function ProcessPOST()
+    {
+        
+    }
+    
+    public function ProcessGET()
+    {
+        
+    }
 }
