@@ -32,11 +32,13 @@ abstract class BaseView {
 <html <?php echo "lang=\"" . $this->model->lang . "\"" ?>>
     <head>
         <meta charset="UTF-8"/>
-        <!--<meta name="viewport" content="width=device-width, initial-scale=1"/>-->
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
         <title><?php echo $this->model->getTitle() ?></title>
         
-        <link rel="stylesheet" href="style/main.css">
+        <link rel="stylesheet" href="style/main.css"/>
+        <link rel="stylesheet" href="style/small.css" media="screen and (max-width: 768px)"/>        
+        <link rel="stylesheet" href="style/large.css" media="screen and (min-width: 768px)"/>        
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <?php 
     $this->GenerateHead();             
@@ -122,8 +124,8 @@ abstract class BaseView {
     {
 ?>
             <header>
-                <div id="portrait"><img src="img/portrait_small.png" alt="<?php echo $this->model->person->FullName ?>" /></div>
-                <div id="fullName"><?php echo $this->model->person->FullName ?></div>
+                <div class="portrait"><img src="img/portrait_small.png" alt="<?php echo $this->model->person->FullName ?>" /></div>
+                <div class="fullName"><?php echo $this->model->person->FullName ?></div>
             </header>
 <?php
     }
@@ -143,7 +145,15 @@ abstract class BaseView {
     {
 ?>
             <header>
-                <div id="universityName"><?php echo $this->model->person->UniversityName . "|" . $this->model->person->FacultyName ?></div>
+                <div id="organisationName">
+                    <div id="navButton"><input id="cmdNavButton" name="navButton" type="button" value="="/></div>
+                    <div id="universityName"><?php echo $this->model->person->UniversityName ?></div>
+                    <div id="facultyName"><?php echo $this->model->person->FacultyName ?></div>
+                </div>
+                <div id="smallNavHeader">
+                    <div class="portrait"><img src="img/portrait_small.png" alt="<?php echo $this->model->person->FullName ?>" /></div>
+                    <div class="fullName"><?php echo $this->model->person->FullName ?></div>
+                </div>
             </header>
 <?php
     }
@@ -178,6 +188,10 @@ abstract class BaseView {
         var obj = $("nav").find("a[data-view-name='<?php echo $this->model->pageName ?>']");
         if (obj)
             obj.addClass("active-nav-item");
+        
+        $("#cmdNavButton").click(function(){
+            $("#left-bar").toggle();
+        });
         
         return false;
     });

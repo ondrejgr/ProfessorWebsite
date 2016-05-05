@@ -1,3 +1,8 @@
+    * 
+    {
+        box-sizing: border-box;
+    }
+
     p.error
     {
         color: red;
@@ -11,102 +16,61 @@
         font-size: 1em;
         font-weight: normal;
     }
-    
-/* BEGIN COMMON */        
+
+    /* BEGIN COMMON */        
     a
     {
         color: blue;
         text-decoration: none;
     }
-    
+
     a:active
     {
         color: lightblue;
     }
-    
+
     a:hover
     {
         color: navy;
         text-decoration: underline;
     }
-    
+
     a:visited
     {
         color: purple;
     }
-/* END COMMON */            
-        
-/* BEGIN PARTS */    
-    #universityName
+    /* END COMMON */            
+
+    /* BEGIN PARTS */    
+    #organisationName
     {
         display: block;
         padding: .5em 8em 0.5em .5em;
         overflow: hidden;
         white-space: nowrap;
         font-family: Verdana, Arial;
-        font-size: 1.2em;
-        font-weight: bold;
     }
+    /* END PARTS */
 
-    #fullName
-    {
-        display: block;
-        padding: 0em .5em .5em 1em;
-        margin: 0em;
-        font-family: Verdana, Arial;
-        font-size: 1.4em;
-        font-weight: bold;
-    }
-
-    #portrait
-    {
-        display: block;
-        text-align: center;
-        padding: 1em 0em .5em 0em;
-        height: auto;
-        width: auto;
-    }
-    
-    #portrait img
-    {
-        border-radius: 25px;
-        height: 6em;
-        width: 6em;
-    }
-/* END PARTS */
-
-/* BEGIN MAIN LAYOUT */
+    /* BEGIN MAIN LAYOUT */
     #container
     {
         display: table;
     }
-    
-    #left-bar
-    {
-        display: table-cell;
-        vertical-align: top;
-    }
-    
+
     #center
     {
         display: table-cell;
         vertical-align: top;
-        min-width: 20em;
         max-width: 45em;        
     }
-   
+
     #footer
     {
         display: block;
     }
-/* END MAIN LAYOUT */
+    /* END MAIN LAYOUT */
 
-    #left-bar header
-    {
-        border-radius: 25px 0px 0px 0px;
-        background-color: lightblue;
-    }
-    
     #left-bar nav
     {
         padding: .75em 1em 5em 2em;
@@ -116,28 +80,28 @@
         background: -moz-linear-gradient(lightblue, white); /* For Firefox 3.6 to 15 */
         background: linear-gradient(lightblue, white); /* Standard syntax */
     }
-    
+
     nav
     {
         list-style: none;
     }
-    
+
     nav a
     {
         display: list-item;
         margin: 0em .5em .5em 0em;        
         color: navy;
         font-family: Verdana, Arial;
-        font-size: 1.2em;
+        font-size: 1.0em;
         font-weight: bold;
         text-decoration: none;
     }
-    
+
     nav a:active
     {
         color: lightblue;
     }
-    
+
     nav a:hover
     {
         color: blue;
@@ -148,46 +112,37 @@
     {
         color: blue;
     }
-    
+
     nav a:visited
     {
         color: navy;
     }
-    
+
     .active-nav-item
     {
         list-style: disc;
         color: yellow;
     }
-    
+
     .active-nav-item:visited
     {
         color: yellow;
     }
-/* END NAV */
+    /* END NAV */
 
-/* BEGIN MAIN */
-    #center header
-    {
-        background: lightblue; 
-        background: -webkit-linear-gradient(90deg, lightblue, white); /* For Safari 5.1 to 6.0 */
-        background: -o-linear-gradient(90deg, lightblue, white); /* For Opera 11.1 to 12.0 */
-        background: -moz-linear-gradient(90deg, lightblue, white); /* For Firefox 3.6 to 15 */
-        background: linear-gradient(90deg, lightblue, white); /* Standard syntax */
-    }
-
+    /* BEGIN MAIN */
     #center main
     {
         padding: 1em 1.5em 1em 1.5em;
     }
-        
+
     main h1
     {
         font-family: Verdana, Arial;
         font-size: 1.1em;
         font-weight: bold;
     }
-    
+
     main p
     {
         text-indent: 2em;
@@ -196,9 +151,9 @@
         font-size: 1em;
         font-weight: normal;
     }
-/* END MAIN */
-    
-/* BEGIN FOOTER */
+    /* END MAIN */
+
+    /* BEGIN FOOTER */
     footer
     {
         clear: both;
@@ -209,10 +164,11 @@
         background: -moz-linear-gradient(lightblue, white); /* For Firefox 3.6 to 15 */
         background: linear-gradient(lightblue, white); /* Standard syntax */
     }
-    
+
     footer p
     {
         font-family: Verdana, Arial;
         font-size: .75em;
     }
-/* END FOOTER */
+    /* END FOOTER */
+    

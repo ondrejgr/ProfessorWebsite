@@ -1,0 +1,73 @@
+@media only screen and (min-width: 768px) 
+{
+    #universityName
+    {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+    
+    #facultyName
+    {
+        margin: .25em 0em 0em 0em;
+        font-size: 1em;
+        font-weight: normal;
+    }
+    
+    #smallNavHeader
+    {
+        display: none;
+    }
+    
+    #navButton
+    {
+        display: none;
+    }
+   
+    #left-bar
+    {
+        display: table-cell;
+        vertical-align: top;
+    }
+    
+    #left-bar header
+    {
+        border-radius: 25px 0px 0px 0px;
+        background-color: lightblue;
+    }
+    
+    #center header
+    {
+        background: lightblue; 
+        background: -webkit-linear-gradient(90deg, lightblue, white); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(90deg, lightblue, white); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(90deg, lightblue, white); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(90deg, lightblue, white); /* Standard syntax */
+    }
+    
+    .fullName
+    {
+        display: block;
+        padding: 0em .5em .5em 1em;
+        font-family: Verdana, Arial;
+        font-size: 1.4em;
+        font-weight: bold;
+    }    
+    
+    .portrait
+    {
+        display: block;
+        text-align: center;
+        padding: 1em 0em .5em 0em;
+        height: auto;
+        width: auto;
+    }
+    
+    .portrait img
+    {
+        border-radius: 25px;
+        height: 6em;
+        width: 6em;
+    }
+  
+
+}
