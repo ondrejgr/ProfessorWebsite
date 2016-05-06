@@ -29,7 +29,7 @@ class LoginController extends BaseController {
     {
         if (!isset($_POST['AdminPassword']) || !is_string($_POST['AdminPassword']))
         {
-            throw new GratzException("No password specified");
+            throw new \GratzException("No password specified");
         }
         $password = filter_input(INPUT_POST, 'AdminPassword');
 

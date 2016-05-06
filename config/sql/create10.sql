@@ -25,3 +25,11 @@ CREATE TABLE IF NOT EXISTS ContentPages (
     Name NVARCHAR(30) PRIMARY KEY NOT NULL,
     Content TEXT NULL
 ) COLLATE 'utf8_czech_ci';
+
+DROP TABLE IF EXISTS AcademicPositions;
+CREATE TABLE IF NOT EXISTS AcademicPositions (
+    ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    Period NVARCHAR(30) NOT NULL,
+    Position NVARCHAR(50) NULL,
+    Place NVARCHAR(100) NULL
+) COLLATE 'utf8_czech_ci';

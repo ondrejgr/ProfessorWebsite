@@ -52,7 +52,7 @@ abstract class BaseView {
     }
 
     private function ProcessMethods()
-    {
+    {        
         if (filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING) === 'POST')
         {
             $this->controller->ProcessPOST();
@@ -61,7 +61,7 @@ abstract class BaseView {
         if (filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING) === 'GET')
         {
             $this->controller->ProcessGET();
-        }
+        }            
     }
     
     public function Generate()
