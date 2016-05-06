@@ -27,35 +27,23 @@ class AboutMeEditController extends BaseController {
             throw new \GratzException("No academicPositions data specified");
         }
         $dp = $_POST['dp'];
-        if (!is_array($dp["ID"]))
+
+        $items = array();
+        foreach($dp as $row)
         {
-            throw new \GratzException("No academicPositions.ID data specified");
-        }
-        if (!is_array($dp["Period"]))
-        {
-            throw new \GratzException("No academicPositions.Period data specified");
-        }
-        if (!is_array($dp["Position"]))
-        {
-            throw new \GratzException("No academicPositions.Position data specified");
-        }
-        if (!is_array($dp["Place"]))
-        {
-            throw new \GratzException("No academicPositions.Place data specified");
-        }
-        
-        $object = new \stdClass();
-        foreach ($dp as $key => $value)
-        {
-            $object->{$key} = $value;
-            foreach ($object as $item)
+            $obj = new \stdClass();
+            foreach ($row as $name => $value)
             {
-                echo $item[0];
+                //echo $name;
+                //echo $value;
+                $obj->$name = $value;
             }
+            
+            print_r($obj);
+            //echo $obj->Delete;
+            echo "\n";
         }
-        
-        
-        
+                
         die();
     }
 }

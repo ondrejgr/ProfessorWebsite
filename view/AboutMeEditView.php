@@ -42,9 +42,14 @@ class AboutMeEditView extends BaseView
         }
 ?>
                 <script>
-                    function item_Delete(obj)
+                    function item_Delete(name, obj)
                     {
-                        $(obj).parent().parent().remove();
+                        var div = $(obj).parent().parent();
+                        if (div)
+                        {
+                            div.find("input[name='" + name + "[][Delete]']").val(1);
+                            div.hide();
+                        }
                     }
                 </script>
                 <form method="POST">
@@ -72,11 +77,13 @@ class AboutMeEditView extends BaseView
 ?>
         function CreateAcademicPosition(id, period, position, place)
         {
-            $("#academicPositions").append('<div><input type="hidden" name="dp[ID][]" value="' + id.toString() + '" />' +
-                '<div><input type="text" name="dp[Period][]" required maxlength="30" style="width: 6em" value="' + period + '" /></div>' +
-                '<div><input type="text" name="dp[Position][]" maxlength="50" style="width: 15em" value="' + position + '" /></div>' +
-                '<div><input type="text" name="dp[Place][]" maxlength="100" style="width: 25em" value="' + place + '" /></div>' +
-                '<div><input type="button" value="Delete" onclick="item_Delete(this)" /></div>' +
+            $("#academicPositions").append('<div>' +
+                '<input type="hidden" name="dp[][Delete]" value="0" />' +
+                '<input type="hidden" name="dp[][ID]" value="' + id.toString() + '" />' +
+                '<div><input type="text" name="dp[][Period]" required maxlength="30" style="width: 6em" value="' + period + '" /></div>' +
+                '<div><input type="text" name="dp[][Position]" maxlength="50" style="width: 15em" value="' + position + '" /></div>' +
+                '<div><input type="text" name="dp[][Place]" maxlength="100" style="width: 25em" value="' + place + '" /></div>' +
+                '<div><input type="button" value="Delete" onclick="return item_Delete(\'dp\', this);" /></div>' +
                 '</div>');
         }
 

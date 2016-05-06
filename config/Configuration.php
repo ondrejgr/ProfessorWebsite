@@ -2,7 +2,7 @@
 
 abstract class Configuration
 {
-    const ServerName = "eu-cdbr-azure-west-d.cloudapp.net";
+    const ServerName = "localhost";
     const DatabaseName = "gratzondb";
     
     const UserName = "ba072f630cdf08";
