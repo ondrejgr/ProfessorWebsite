@@ -27,12 +27,12 @@ class LoginController extends BaseController {
     
     public function ProcessPOST()
     {
-        if (!isset($_POST['AdminPassword']) || !is_string($_POST['AdminPassword']))
+        $password = \filter_input(\INPUT_POST, 'AdminPassword');
+        if (!is_string($password))
         {
             throw new \GratzException("No password specified");
         }
-        $password = filter_input(INPUT_POST, 'AdminPassword');
-
+        
         if ((hash("sha256", "xxx" . $password) == $this->model->password))
         {
             $this->LoginAdmin();

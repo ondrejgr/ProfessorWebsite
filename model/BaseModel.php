@@ -167,6 +167,66 @@ class BaseModel {
         }
     }
     
+    private function GetPrimaryKeysOfItems($items)
+    {
+        $GetID = function($v)
+        {
+            return $v->ID;
+        };
+        
+        return array_map($GetID, $items);
+    }
+    
+    protected function InsertItemsToTable($items, $tableName, $properties)
+    {
+        if (!is_array($items))
+        {
+            throw new \Exception("Unable to insert items. No valid items array passed");
+        }
+        if (!is_string($tableName) || strlen($tableName) == 0)
+        {
+            throw new \Exception("No table name specified for insert action");
+        }
+        if (!is_array($properties) || count($properties) == 0)
+        {
+            throw new \Exception("Unable to insert items. No valid column names array passed");
+        }
+        
+        $f = function($v)
+        {
+            return ":$v";
+        };
+        
+        $propertyNamesList = implode(", ", $properties);
+        $valueNamesList = implode(", ", array_map($f, $properties));
+        
+        $sth = $this->pdo->prepare("INSERT INTO $tableName ($propertyNamesList) VALUES ($valueNamesList);");
+        foreach($items as $item)
+        {
+            $sth->execute((array)$item);
+        }
+    }
+    
+    protected function DeleteItemsFromTable($items, $tableName)
+    {
+        if (!is_array($items))
+        {
+            throw new \Exception("Unable to delete items. No valid items array passed");
+        }
+        if (!is_string($tableName) || strlen($tableName) == 0)
+        {
+            throw new \Exception("No table name specified for delete action");
+        }
+        
+        $primaryKeys = $this->GetPrimaryKeysOfItems($items);
+
+        $sth = $this->pdo->prepare("DELETE FROM $tableName WHERE ID = :ID;");
+        foreach($primaryKeys as $id)
+        {
+            $sth->execute(array(':ID' => $id));
+        }
+    }
+    
     private function OpenDbConnection()
     {
         $this->pdo = \Database::GetPDO();

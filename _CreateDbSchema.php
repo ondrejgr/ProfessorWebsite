@@ -58,17 +58,17 @@
     {
         if (filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING) === 'POST')
         {
-            if (!isset($_POST['SQLUserName']) || !is_string($_POST['SQLUserName']) || (strlen($_POST['SQLUserName']) === 0))
+            $userName = filter_input(INPUT_POST, 'SQLUserName');
+            if (!is_string($userName) || (strlen($userName) === 0))
             {
                 throw new GratzException("No SQL user name specified");
             }
-            $userName = filter_input(INPUT_POST, 'SQLUserName');
             
-            if (!isset($_POST['SQLPassword']) || !is_string($_POST['SQLPassword']))
+            $password =  filter_input(INPUT_POST, 'SQLPassword');
+            if (!is_string($password))
             {
                 throw new GratzException("No SQL password specified");
             }
-            $password =  filter_input(INPUT_POST, 'SQLPassword');
             
             include 'config/sql/DbSchemaCreator.php';
             $db_schema_creator = new DbSchemaCreator();
