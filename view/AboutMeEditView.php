@@ -42,17 +42,26 @@ class AboutMeEditView extends BaseView
         }
 ?>
                 <script>
-                    function item_Delete(obj)
+                    function item_Delete(name, obj)
                     {
                         var div = $(obj).parent().parent();
                         if (div)
                         {
-                            div.find("input[name*='[Delete][]']").val(1);
-                            //div.hide();
+                            id = div.find("input[name*='[ID][]']").val();
+                            if (id && id > 0)
+                            {
+                                $('<input/>').attr('type','hidden').attr('name',name).val(id).appendTo($("#deletedItems"));
+                            }
+                            div.remove();
                         }
                     }
                 </script>
+<?php
+                $this->GenerateMessages();
+?>
                 <form method="POST">
+                    <div id="deletedItems" style="display: none;">
+                    </div>
                     <div>
                         <div><label accesskey="C" for="Content">Content:</label></div>
                     </div>
@@ -67,26 +76,25 @@ class AboutMeEditView extends BaseView
                     <div id="academicPositions">
                     </div>
                     <div>
-                        <div><input type="submit" value="Save"/></div>
+                        <div><input type="submit" value="Save"/><input type="button" id="cmdView" value="View"/></div>
                         <div><input id="cmdReset" type="reset" value="Reset"/></div>
                     </div>
                 </form>
 <?php
     }
     
-    protected function OnGenerateScript()
+    private function GenerateAcademicPositionEditor()
     {
 ?>
-        function CreateAcademicPosition(id, period, position, place)
+        function CreateAcademicPosition(obj)
         {
-            $("#academicPositions").append('<div>' +
-                '<input type="hidden" name="dp[Delete][]" value="0" />' +
-                '<input type="hidden" name="dp[ID][]" value="' + id.toString() + '" />' +
-                '<div><input type="text" name="dp[Period][]" required maxlength="30" style="width: 6em" value="' + period + '" /></div>' +
-                '<div><input type="text" name="dp[Position][]" maxlength="50" style="width: 15em" value="' + position + '" /></div>' +
-                '<div><input type="text" name="dp[Place][]" maxlength="100" style="width: 25em" value="' + place + '" /></div>' +
-                '<div><input type="button" value="Delete" onclick="return item_Delete(this);" /></div>' +
-                '</div>');
+            var div = $('<div></div');
+                $('<input/>').attr('type','hidden').attr('name','dp[ID][]').val(obj.ID).appendTo(div);
+                $('<div></div').append($('<input/>').attr('type','text').attr('name','dp[Period][]').attr('maxlength', '30').attr('required', 'true').attr('style', 'width: 6em').val(obj.Period)).appendTo(div);
+                $('<div></div').append($('<input/>').attr('type','text').attr('name','dp[Position][]').attr('maxlength', '50').attr('style', 'width: 15em').val(obj.Position)).appendTo(div);
+                $('<div></div').append($('<input/>').attr('type','text').attr('name','dp[Place][]').attr('maxlength', '100').attr('style', 'width: 25em').val(obj.Place)).appendTo(div);
+                div.append('<div><input type="button" value="Delete" onclick="return item_Delete(\'dpDelete[]\', this);" /></div>');
+            div.appendTo($("#academicPositions"));
         }
 
         function LoadAcademicPositions()
@@ -98,21 +106,37 @@ class AboutMeEditView extends BaseView
                 '<div><label>Place</label></div>' +
                 '<div></div>' +
                 '</div>');
-            CreateAcademicPosition(-1, '', '', '');            
+<?php
+            foreach ($this->model->academicPositions->data as $item)
+            {
+                echo "            CreateAcademicPosition(" . json_encode($item) . ");\n";
+            }
+?>
         }
 
         $("#cmdAddAcademicPositions").click(function(){
-            CreateAcademicPosition(-1, '', '', '');
+            CreateAcademicPosition({"ID":"","Period":"","Position":"","Place":""});
         });
-
-  
-        
-
-
-        $("#cmdReset").click(function(){
+<?php        
+    }
+    
+    protected function OnGenerateScript()
+    {
+        $this->GenerateAcademicPositionEditor();
+?>        
+        function LoadData()
+        {
+            $("#deletedItems").empty();
             LoadAcademicPositions();
+        }
+
+        $("#cmdView").click(function(){
+            window.open('?view=<?php echo $this->model->pageName ?>');
         });
-        LoadAcademicPositions();
+        $("#cmdReset").click(function(){
+            LoadData();
+        });
+        LoadData();
 <?php
     }
 }

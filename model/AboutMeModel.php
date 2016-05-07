@@ -3,7 +3,7 @@
 namespace gratz;
 
 include "model/ContentModel.php";
-include "model/AcademicPosition.php";
+include "model/ItemsCollection.php";
 
 /**
  * Description of AboutMeModel
@@ -21,43 +21,11 @@ class AboutMeModel extends \gratz\ContentModel {
         parent::__destruct();
     }
     
-    private $baseTableName = "AcademicPositions";
-    private $baseProperties = array("Period", "Position", "Place");
-    
-    public $academicPositions = array();
-    
-    private function LoadAcademicPositions()
-    {
-        $this->academicPositions = array();
-
-        $sth = $this->pdo->query("SELECT * FROM $this->baseTableName ORDER BY Period DESC;", 
-                    \PDO::FETCH_CLASS, "\gratz\AcademicPosition");
-        if (!$sth)
-        {
-            throw new \Exception("Unable to load $this->baseTableName");
-        }
-
-        while ($academicPosition = $sth->fetch())
-        {
-            $this->academicPositions[] = $academicPosition;
-        }
-        $sth->closeCursor();
-    }
-    
-    public function InsertAcademicPositions($items)
-    {
-        $this->InsertItemsToTable($items, $this->baseTableName, $this->baseProperties);
-        $this->LoadAcademicPositions();
-    }
-
-    public function DeleteAcademicPositions($items)
-    {
-        $this->DeleteItemsFromTable($items, $this->baseTableName);
-        $this->LoadAcademicPositions();
-    }
-    
+    public $academicPositions;
+   
     protected function OnLoadData()
     {
-        $this->LoadAcademicPositions();
+        $this->academicPositions = new \gratz\ItemsCollection($this->pdo, "AcademicPositions", 
+            array("Period", "Position", "Place"), "Period DESC");
     }
 }

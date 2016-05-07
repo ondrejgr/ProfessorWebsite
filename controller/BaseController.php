@@ -24,11 +24,11 @@ class BaseController {
         
     }
     
-    private function GetItemsArrayFromData($dp, $arrayTitle)
+    private function CreateItems($dp)
     {
         if (!array_key_exists("ID", $dp) || !is_array($dp["ID"]))
         {
-            throw new \GratzException("Primary key values array is missing in posted $arrayTitle data");
+            throw new \GratzException("Primary key values array is missing in posted data");
         }
 
         $items = array();
@@ -59,7 +59,7 @@ class BaseController {
         }        
     }
     
-    protected function GetItemsFromPostData($arrayName, $arrayTitle)
+    protected function GetItemsFromPostData($arrayName)
     {
         if (!is_string($arrayName) || strlen($arrayName) == 0)
         {
@@ -68,28 +68,16 @@ class BaseController {
         $dp = filter_input(INPUT_POST, $arrayName, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
         if (!is_array($dp))
         {
-            throw new \GratzException("No $arrayTitle data posted");
+            return FALSE;
         }
         
-        $items = $this->GetItemsArrayFromData($dp, $arrayTitle);  
+        $items = $this->CreateItems($dp);  
         $this->LoadPropertiesFromData($dp, $items);
       
         return $items;
     }
     
-    protected function GetItemsToDelete($items)
-    {
-        if (!is_array($items))
-        {
-            throw new \GratzException("No valid items array to delete specified");
-        }
-        $Filter = function($v)
-        {
-            return $v->Delete && $v->ID > 0;
-        };
-        return array_filter($items, $Filter);   
-    }
-    
+
     protected function GetItemsToInsert($items)
     {
         if (!is_array($items))
@@ -98,8 +86,32 @@ class BaseController {
         }
         $Filter = function($v)
         {
-            return !$v->Delete && $v->ID <= 0;
+            return $v->ID <= 0;
         };
         return array_filter($items, $Filter);   
     }
+    
+    protected function GetItemKeysToDeleteFromPostData($arrayName)
+    {
+        if (!is_string($arrayName) || strlen($arrayName) == 0)
+        {
+            throw new \GratzException("Invalid array name passed");
+        }
+        $dp = filter_input(INPUT_POST, $arrayName . "Delete", FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+
+        $result = array();
+        if (is_array($dp))
+        {
+            foreach($dp as $id)
+            {
+                if ($id > 0)
+                {
+                    $result[] = $id;
+                }
+            }
+        }
+      
+        return $result;
+    }
+    
 }

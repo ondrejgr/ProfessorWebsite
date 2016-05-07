@@ -10,21 +10,32 @@ class AboutMeEditController extends BaseController {
     
     public function ProcessPOST()
     {
-        $content = filter_input(INPUT_POST, 'Content', FILTER_SANITIZE_STRING);
-        if (!is_string($content))
+        try
         {
-            throw new \GratzException("No content specified");
+            $content = filter_input(INPUT_POST, 'Content', FILTER_SANITIZE_STRING);
+            if (!is_string($content))
+            {
+                throw new \GratzException("No content specified");
+            }
+            $this->model->updateContent($content);
+
+            $this->UpdateAcademicPositions();
+            
+            $this->model->setInfo("Data saved.");
         }
-        $this->model->updateContent($content);
-        
-        $this->ProcessAcademicPositions();
+        catch (\Exception $ex) 
+        {
+            $message = $ex->getMessage();
+            $this->model->setError("Error saving data: $message.");
+        }
     }
     
-    private function ProcessAcademicPositions()
+    private function UpdateAcademicPositions()
     {
-        $items = $this->GetItemsFromPostData("dp", "Academic positions");
-        $this->model->DeleteAcademicPositions($this->GetItemsToDelete($items));
-        $this->model->InsertAcademicPositions($this->GetItemsToInsert($items));
-        die();
+        if ($items = $this->GetItemsFromPostData("dp"))
+        {
+            $this->model->academicPositions->DeleteItemKeys($this->GetItemKeysToDeleteFromPostData("dp"));
+            $this->model->academicPositions->InsertItems($this->GetItemsToInsert($items));
+        }
     }
 }
