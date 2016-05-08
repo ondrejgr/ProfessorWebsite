@@ -81,7 +81,7 @@ class BaseController {
     {
         if (!is_array($items))
         {
-            throw new \GratzException("No valid items array to insert specified");
+            return array();
         }
         $Filter = function($v)
         {
@@ -94,7 +94,7 @@ class BaseController {
     {
         if (!is_array($items))
         {
-            throw new \GratzException("No valid items array to update specified");
+            return array();
         }
         $Filter = function($v)
         {

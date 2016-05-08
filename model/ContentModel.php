@@ -17,7 +17,12 @@ class ContentModel extends \gratz\BaseModel {
     
     private function setContent($content)
     {
-        $this->content = $content;
+        $value = filter_var($content, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if (!$value)
+        {
+            $value = "";
+        }
+        $this->content = $value;
     }
     
     public function updateContent($content)

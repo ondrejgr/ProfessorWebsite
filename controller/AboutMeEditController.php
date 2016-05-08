@@ -12,7 +12,7 @@ class AboutMeEditController extends BaseController {
     {
         try
         {
-            $content = filter_input(INPUT_POST, 'Content', FILTER_SANITIZE_STRING);
+            $content = filter_input(INPUT_POST, 'Content');
             if (!is_string($content))
             {
                 throw new \GratzException("No content specified");
