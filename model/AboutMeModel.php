@@ -3,7 +3,9 @@
 namespace gratz;
 
 include "model/ContentModel.php";
-include "model/ItemsCollection.php";
+include "model/collections/ItemsCollection.php";
+
+include "model/collections/AcademicPositionsCollection.php";
 
 /**
  * Description of AboutMeModel
@@ -11,9 +13,9 @@ include "model/ItemsCollection.php";
  * @author ondrej.gratz
  */
 class AboutMeModel extends \gratz\ContentModel {
-    public function __construct($pageName) 
+    public function __construct($pageName, $isEditor=FALSE) 
     {
-        parent::__construct($pageName);
+        parent::__construct($pageName, $isEditor);
     }
     
     function __destruct() 
@@ -25,7 +27,7 @@ class AboutMeModel extends \gratz\ContentModel {
    
     protected function OnLoadData()
     {
-        $this->academicPositions = new \gratz\ItemsCollection($this->pdo, "AcademicPositions", 
-            array("Period", "Position", "Place"), "Period DESC");
+        parent::OnLoadData();
+        $this->academicPositions = new AcademicPositionsCollection($this->pdo, $this->isEditor);
     }
 }

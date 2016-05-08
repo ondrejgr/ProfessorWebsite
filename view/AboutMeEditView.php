@@ -60,24 +60,32 @@ class AboutMeEditView extends BaseView
                 $this->GenerateMessages();
 ?>
                 <form method="POST">
-                    <div id="deletedItems" style="display: none;">
+                    <div id="deletedItems">
                     </div>
                     <div>
-                        <div><label accesskey="C" for="Content">Content:</label></div>
+                        <label accesskey="C" for="Content">Content:</label>
                     </div>
                     <div>
-                        <div><textarea id="Content" name="Content" cols="80" rows="10" autofocus><?php echo $content ?></textarea></div>
+                        <textarea id="Content" name="Content" cols="80" rows="10" autofocus><?php echo $content ?></textarea>
                     </div>
                     <div>
-                        <div>
-                            <input id="cmdAddAcademicPositions" type="button" value="Add academic position"/>
-                        </div>
+                        <input id="cmdAddAcademicPositions" type="button" value="Add academic position"/>
                     </div>
                     <div id="academicPositions">
                     </div>
                     <div>
-                        <div><input type="submit" value="Save"/><input type="button" id="cmdView" value="View"/></div>
-                        <div><input id="cmdReset" type="reset" value="Reset"/></div>
+                        <div>
+                            <input type="submit" value="Save"/>
+                        </div>
+                        <div>
+                            <input type="button" id="cmdView" value="View"/>
+                        </div>
+                        <div>
+                            <input id="cmdReset" type="button" value="Reset"/>
+                        </div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
                     </div>
                 </form>
 <?php
@@ -134,6 +142,7 @@ class AboutMeEditView extends BaseView
             window.open('?view=<?php echo $this->model->pageName ?>');
         });
         $("#cmdReset").click(function(){
+            $(this).closest('form').trigger("reset");
             LoadData();
         });
         LoadData();
@@ -141,7 +150,7 @@ class AboutMeEditView extends BaseView
     }
 }
 
-$model = new \gratz\AboutMeModel("AboutMe");
+$model = new \gratz\AboutMeModel("AboutMe", TRUE);
 $controller = new \gratz\AboutMeEditController($model);
 $view = new \gratz\AboutMeEditView($model, $controller);
-$view->Generate();
+$view->Generate(); 

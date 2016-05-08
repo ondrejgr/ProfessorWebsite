@@ -7,45 +7,68 @@ class BaseModel {
     /* @var $pdo PDO */
     protected $pdo = NULL;
     protected $cmdGetDbInfoItem;
+    protected $cmdSetDbInfoItem;
     
     public $navItems = array();
     public $person;
    
+    public $isEditor = FALSE;
     
     public $error;
     public function setError($error)
     {
-        $this->error = $error;
+        $value = filter_var($error, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if (!$value)
+        {
+            $value = "";
+        }
+        $this->error = $value;
     }
     
     public $info;
     public function setInfo($info)
     {
-        $this->info = $info;
+        $value = filter_var($info, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if (!$value)
+        {
+            $value = "";
+        }
+        $this->info = $value;
     }
     
     public $lang = 'en';
-    function setLang($lang)
-    {
-        $this->lang = $lang;
-    }
     
     public $pageName = '';
     function setPageName($pageName)
     {
-        $this->pageName = $pageName;
+        $value = filter_var($pageName, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if (!$value)
+        {
+            $value = "";
+        }
+        $this->pageName = $value;
     }
     
     public $webTitle = '';
     function setWebTitle($webTitle)
     {
-        $this->webTitle = $webTitle;
+        $value = filter_var($webTitle, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if (!$value)
+        {
+            $value = "";
+        }
+        $this->webTitle = $value;
     }
     
     public $pageTitle = '';
     function setPageTitle($pageTitle)
     {
-        $this->pageTitle = $pageTitle;
+        $value = filter_var($pageTitle, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        if (!$value)
+        {
+            $value = "";
+        }
+        $this->pageTitle = $value;
     }
 
     function getTitle()
@@ -59,24 +82,7 @@ class BaseModel {
             return $this->webTitle;
         }            
     }
-    
-    private function LoadPerson()
-    {
-        $sth = $this->pdo->query("SELECT * FROM DbInfoView;", \PDO::FETCH_CLASS, "\gratz\Person");
-        if (!$sth)
-        {
-            throw new \Exception("Unable to load personal information");
-        }
 
-        $this->person = $sth->fetch();
-        $sth->closeCursor();
-       
-        if (!is_a($this->person, "\gratz\Person")) 
-        {
-            throw new \Exception("Personal information was not found in database");
-        }
-    }
-    
     public function IsAdminLoggedIn()
     {
         if (session_status() == PHP_SESSION_NONE)
@@ -86,6 +92,11 @@ class BaseModel {
         return isset($_SESSION['IS_ADMIN']) && is_bool($_SESSION['IS_ADMIN']) && $_SESSION['IS_ADMIN'];
     }
    
+    private function SanitizeNavItem($item)
+    {
+        $item->Title = filter_var($item->Title, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $item->Url = filter_var($item->Url, FILTER_SANITIZE_URL);
+    }
     
     private function LoadNavItems()
     {
@@ -109,6 +120,7 @@ class BaseModel {
 
         while ($navItem = $sth->fetch())
         {
+            $this->SanitizeNavItem($navItem);
             $this->navItems[] = $navItem;
         }
         $sth->closeCursor();
@@ -133,7 +145,7 @@ class BaseModel {
     private function LoadData()
     {
         $this->setWebTitle($this->GetDbInfoItem('Title'));
-        $this->LoadPerson();
+        $this->person = new Person($this->pdo);
         if (is_string($this->pageName) && (strlen($this->pageName) > 0)) 
         {
             $this->LoadPageData();
@@ -147,23 +159,49 @@ class BaseModel {
         
     }
 
-
-    protected function GetDbInfoItem($key)
+    private function CheckKey($key)
     {
         if (!is_string($key) || (strlen($key) == 0))
         {
-            throw new \Exception("No valid key parameter has been passed to GetDbInfoItem method");
+            throw new \Exception("No valid key parameter has been passed to DbInfoItem method");
         }
+    }
+
+    protected function GetDbInfoItem($key, $sanitize = TRUE)
+    {
+        $this->CheckKey($key);
         $this->cmdGetDbInfoItem->execute(array(':InfoKey' => $key));
-        $value = $this->cmdGetDbInfoItem->fetchColumn();
-        $this->cmdGetDbInfoItem->closeCursor();
-        if ($value && is_string($value))
+        
+        if ($sanitize)
         {
-            return $value;
+            $value = filter_var($this->cmdGetDbInfoItem->fetchColumn(), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         }
         else
         {
-            return '';
+            $value = $this->cmdGetDbInfoItem->fetchColumn();
+        }
+        $this->cmdGetDbInfoItem->closeCursor();
+        
+        if ($value)
+        {
+            return $value;
+        }
+        else 
+        {
+            return "";
+        }
+    }
+    
+    protected function SetDbInfoItem($key, $value)
+    {
+        $this->CheckKey($key);
+        if (!is_string($value))
+        {
+            $value = "";
+        }
+        if (!$this->cmdSetDbInfoItem->execute(array(':InfoKey' => $key, ':InfoValue' => $value)))
+        {
+            throw new \GratzException("Database insert failed in method SetDbInfoItem");
         }
     }
     
@@ -175,6 +213,7 @@ class BaseModel {
         {
             throw new \GratzException("Invalid database version");
         }
+        $this->cmdSetDbInfoItem = $this->pdo->prepare("INSERT INTO DbInfo (InfoKey, InfoValue) VALUES (:InfoKey, :InfoValue) ON DUPLICATE KEY UPDATE InfoValue = :InfoValue;");
     }
     
     private function CloseDbConnection()
@@ -193,8 +232,9 @@ class BaseModel {
         $this->LoadNavItems();
     }
     
-    public function __construct($pageName) 
+    public function __construct($pageName, $isEditor = FALSE) 
     {
+        $this->isEditor = $isEditor;
         $this->pageName = $pageName;
         
         $this->OpenDbConnection();
@@ -205,4 +245,4 @@ class BaseModel {
     {
        $this->CloseDbConnection();
     }
-}
+} 

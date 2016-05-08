@@ -77,7 +77,6 @@ class BaseController {
         return $items;
     }
     
-
     protected function GetItemsToInsert($items)
     {
         if (!is_array($items))
@@ -87,6 +86,19 @@ class BaseController {
         $Filter = function($v)
         {
             return $v->ID <= 0;
+        };
+        return array_filter($items, $Filter);   
+    }
+    
+    protected function GetItemsToUpdate($items)
+    {
+        if (!is_array($items))
+        {
+            throw new \GratzException("No valid items array to update specified");
+        }
+        $Filter = function($v)
+        {
+            return $v->ID > 0;
         };
         return array_filter($items, $Filter);   
     }

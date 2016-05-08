@@ -32,10 +32,15 @@ class AboutMeEditController extends BaseController {
     
     private function UpdateAcademicPositions()
     {
-        if ($items = $this->GetItemsFromPostData("dp"))
-        {
-            $this->model->academicPositions->DeleteItemKeys($this->GetItemKeysToDeleteFromPostData("dp"));
-            $this->model->academicPositions->InsertItems($this->GetItemsToInsert($items));
-        }
+        $itemKeysToDelete = $this->GetItemKeysToDeleteFromPostData("dp");
+        $this->model->academicPositions->DeleteItemsByKeys($itemKeysToDelete);
+        
+        $items = $this->GetItemsFromPostData("dp");
+        
+        $itemsToInsert = $this->GetItemsToInsert($items);
+        $this->model->academicPositions->InsertItems($itemsToInsert);
+        
+        $itemsToUpdate = $this->GetItemsToUpdate($items);
+        $this->model->academicPositions->UpdateItems($itemsToUpdate);
     }
 }

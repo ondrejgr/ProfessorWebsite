@@ -3,9 +3,9 @@
 namespace gratz;
 
 class ContentModel extends \gratz\BaseModel {
-    public function __construct($pageName) 
+    public function __construct($pageName, $isEditor=FALSE) 
     {
-        parent::__construct($pageName);
+        parent::__construct($pageName, $isEditor);
     }
     
     function __destruct() 
