@@ -51,8 +51,13 @@
         font-size: 1em;
         font-weight: bold;
     }
-
+    
     .portrait
+    {
+        display: none;
+    }
+
+    .portraitSmall
     {
         float: left;
         display: block;
@@ -61,7 +66,7 @@
         width: auto;
     }
 
-    .portrait img
+    .portraitSmall img
     {
         border-radius: 15px;
         height: 3em;

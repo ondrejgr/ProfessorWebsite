@@ -23,7 +23,7 @@
             return $viewNames;
         }
         
-        function DispatchRequest()
+        function GetViewName()
         {
             if (isset($_GET['view']) && is_string($_GET['view']))
             {
@@ -34,6 +34,12 @@
                 $viewName = "AboutMe";
             }
             
+            return $viewName;
+        }
+        
+        function DispatchRequest()
+        {
+            $viewName = GetViewName();
             if (!isset($viewName) || !is_string($viewName) || strlen($viewName) == 0) 
             {
                 throw new \GratzException("No view name specified");

@@ -56,13 +56,28 @@
     .portrait
     {
         display: block;
+        float: right;
+        padding: .5em .5em .5em .5em;
+        height: auto;
+        width: auto;
+    }
+    
+    .portrait img
+    {
+        height: 10em;
+        width: 10em;
+    }
+    
+    .portraitSmall
+    {
+        display: block;
         text-align: center;
         padding: 1em 0em .5em 0em;
         height: auto;
         width: auto;
     }
     
-    .portrait img
+    .portraitSmall img
     {
         border-radius: 25px;
         height: 6em;

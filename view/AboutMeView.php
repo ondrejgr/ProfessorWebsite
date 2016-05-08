@@ -11,17 +11,28 @@ class AboutMeView extends BaseView
         parent::__construct($model, $controller);
     }
 
+    private function GeneratePortrait()
+    {
+?>
+                <div class="portrait"><img src="img/portrait.png" alt="<?php echo $this->model->person->FullName ?>" /></div>
+<?php
+    }
+    
     protected function OnGenerateContent()
     {
         if (is_string($this->model->content) && strlen($this->model->content) > 0)
         {
+            $this->GeneratePortrait();
+
             $array = explode("\n", str_replace("\r", '', $this->model->content));
-            if ($array)
+            if (!$array)
             {
-                foreach ($array as $item)
-                {
-                    echo "                <p>$item</p>\n";
-                }
+                return FALSE;
+            }
+            
+            foreach ($array as $item)
+            {
+                echo "                <p>$item</p>\n";
             }
         }
     }

@@ -17,8 +17,17 @@ abstract class BaseView {
         $this->isPostBack = $isPostBack;
     }
     
+    public $infoMessageKey;
+    public function setInfoMessageKey($infoMessageKey)
+    {
+        $this->infoMessageKey = $infoMessageKey;
+    }
+    
+    public $viewName;
+
     public function __construct($model, $controller) 
     {
+        $this->viewName = GetViewName();
         if (is_null($model) || !($model instanceof \gratz\BaseModel))
         {
             throw new \Exception("No valid model instance has been passed to view");
@@ -30,6 +39,16 @@ abstract class BaseView {
 
         $this->model = $model;
         $this->controller = $controller;
+        
+        $this->CheckInfoMessageKey();
+    }
+    
+    private function CheckInfoMessageKey()
+    {
+        if (isset($_GET['info']) && is_string($_GET['info']))
+        {
+            $this->infoMessageKey = filter_input(INPUT_GET, 'info', FILTER_SANITIZE_STRING);
+        }
     }
     
     protected function CheckAdminAccess()
@@ -55,12 +74,19 @@ abstract class BaseView {
     {        
         if (filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING) === 'POST')
         {
-            $this->controller->ProcessPOST();
+            $post_result = $this->controller->ProcessPOST();
+            if ($post_result)
+            {
+                header( 'HTTP/1.1 303 See Other' );
+                header( "Location: " . BASE_URL . "index.php?view=" . $this->viewName . "&info=$post_result" );
+                die();
+            }
             $this->setIsPostBack(\TRUE);
         }
         if (filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING) === 'GET')
         {
             $this->controller->ProcessGET();
+            $this->setIsPostBack(strlen($this->GenerateInfoMessage()) > 0);
         }            
     }
     
@@ -173,7 +199,7 @@ abstract class BaseView {
     {
 ?>
             <header>
-                <div class="portrait"><img src="img/portrait_small.png" alt="<?php echo $this->model->person->FullName ?>" /></div>
+                <div class="portraitSmall"><img src="img/portrait_small.png" alt="<?php echo $this->model->person->FullName ?>" /></div>
                 <div class="fullName"><?php echo $this->model->person->FullName ?></div>
             </header>
 <?php
@@ -260,6 +286,26 @@ abstract class BaseView {
 <?php
     }
     
+    private function GenerateInfoMessage()
+    {
+        $key = $this->infoMessageKey;
+        if (!is_string($key) || strlen($key) == 0)
+        {
+            return "";
+        }
+        
+        if ($key == "data_saved")
+        {
+            return "Data saved.";
+        }
+        if ($key == "login_success")
+        {
+            return "Login success.";
+        }
+
+        return "";
+    }
+    
     public function GenerateMessages()
     {
         $error = $this->model->error;
@@ -272,6 +318,12 @@ abstract class BaseView {
         if (is_string($info) && strlen($info) > 0)
         {
             echo "                <p class=\"info\">$info</p>\n";
+        }
+
+        $message = $this->GenerateInfoMessage();
+        if (strlen($message) > 0)
+        {
+            echo "                <p class=\"info\">$message</p>\n";
         }
     }
     

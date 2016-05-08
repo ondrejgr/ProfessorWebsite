@@ -36,7 +36,7 @@ class LoginController extends BaseController {
         if ((hash("sha256", "xxx" . $password) == $this->model->password))
         {
             $this->LoginAdmin();
-            $this->model->setInfo("Login success.");
+            return "login_success";
         }
         else
         {
@@ -44,5 +44,7 @@ class LoginController extends BaseController {
             $this->model->setError("Login failed.");
         }
         $this->model->RefreshNavItems();
+        
+        return FALSE;
     }
 }

@@ -21,12 +21,13 @@ class AboutMeEditController extends BaseController {
 
             $this->UpdateAcademicPositions();
             
-            $this->model->setInfo("Data saved.");
+            return "data_saved";
         }
         catch (\Exception $ex) 
         {
             $message = $ex->getMessage();
             $this->model->setError("Error saving data: $message.");
+            return FALSE;
         }
     }
     
