@@ -31,3 +31,21 @@
     {
         display: none;
     }
+    
+    input[type=submit]
+    {
+        display: none;
+    }
+    input[type=reset]
+    {
+        display: none;
+    }
+    input[type=button]
+    {
+        display: none;
+    }
+    #cmdReset
+    {
+        display: none;
+    }
+    

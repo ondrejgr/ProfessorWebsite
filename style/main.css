@@ -29,8 +29,10 @@
     form
     {
         display: table;
+        table-layout: fixed;
         padding: 0.5em;
         border: solid silver;
+        border-collapse: collapse;
     }
     form div
     {
@@ -41,16 +43,40 @@
     form div div
     {
         display: table-cell;
+        padding: .25em;
     }
+    
     input[type=submit]
     {
-        width: 10em;
+        min-width: 6em;
     }
     input[type=reset]
     {
-        width: 10em;
+        min-width: 6em;
+    }
+    input[type=button]
+    {
+    }
+    #cmdReset
+    {
+        min-width: 6em;
     }
 
+    .form_buttons
+    {
+        display: table;
+    }
+    
+    .form_buttons div
+    {
+        display: table-row;
+    }
+    
+    .form_buttons div div
+    {
+        display: table-cell;
+    }
+    
     /* BEGIN COMMON */        
     a
     {

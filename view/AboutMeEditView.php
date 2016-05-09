@@ -19,15 +19,11 @@ class AboutMeEditView extends BaseView
     <style>
         #academicPositions
         {
-            display: table;
-        }
-        #academicPositions div
-        {
             display: table-row;
         }
-        #academicPositions div div
+        #academicPositions th
         {
-            display: table-cell;
+            text-align: left;
         }
     </style>
 <?php
@@ -63,29 +59,26 @@ class AboutMeEditView extends BaseView
                     <div id="deletedItems">
                     </div>
                     <div>
-                        <label accesskey="C" for="Content">Content:</label>
+                        <div><label accesskey="C" for="Content">Content:</label></div>
                     </div>
                     <div>
-                        <textarea id="Content" name="Content" cols="80" rows="10" autofocus><?php echo $content ?></textarea>
+                        <div><textarea id="Content" name="Content" cols="80" rows="10" autofocus><?php echo $content ?></textarea></div>
                     </div>
                     <div>
-                        <input id="cmdAddAcademicPositions" type="button" value="Add academic position"/>
-                    </div>
-                    <div id="academicPositions">
+                        <div><input id="cmdAddAcademicPositions" type="button" value="Add academic position"/></div>
                     </div>
                     <div>
                         <div>
-                            <input type="submit" value="Save"/>
+                            <table id="academicPositions">
+                            </table>
                         </div>
+                    </div>
+                    <div class="form_buttons">
                         <div>
-                            <input type="button" id="cmdView" value="View"/>
+                            <div><input type="submit" value="Save"/></div>
+                            <div><input type="button" id="cmdView" value="View page"/></div>
+                            <div><input id="cmdReset" type="button" value="Undo all"/></div>
                         </div>
-                        <div>
-                            <input id="cmdReset" type="button" value="Reset"/>
-                        </div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
                     </div>
                 </form>
 <?php
@@ -94,26 +87,30 @@ class AboutMeEditView extends BaseView
     private function GenerateAcademicPositionEditor()
     {
 ?>
+        function EmptyTableAndCreateHeaders(name, titles)
+        {
+            $(name).empty();
+            var div = $('<tr></tr>');
+            for (var i = 0; i < titles.length; i++) 
+            {
+                $('<th></th>').append($('<label></label>')).text(titles[i]).appendTo(div);
+            }
+            div.appendTo($(name));
+        }
         function CreateAcademicPosition(obj)
         {
-            var div = $('<div></div');
+            var div = $('<tr></tr>');
                 $('<input/>').attr('type','hidden').attr('name','dp[ID][]').val(obj.ID).appendTo(div);
-                $('<div></div').append($('<input/>').attr('type','text').attr('name','dp[Period][]').attr('maxlength', '30').attr('required', 'true').attr('style', 'width: 6em').val(obj.Period)).appendTo(div);
-                $('<div></div').append($('<input/>').attr('type','text').attr('name','dp[Position][]').attr('maxlength', '50').attr('style', 'width: 15em').val(obj.Position)).appendTo(div);
-                $('<div></div').append($('<input/>').attr('type','text').attr('name','dp[Place][]').attr('maxlength', '100').attr('style', 'width: 25em').val(obj.Place)).appendTo(div);
-                div.append('<div><input type="button" value="Delete" onclick="return item_Delete(\'dpDelete[]\', this);" /></div>');
+                $('<td></td>').append($('<input/>').attr('type','text').attr('name','dp[Period][]').attr('maxlength', '30').attr('required', 'true').attr('style', 'width: 6em').val(obj.Period)).appendTo(div);
+                $('<td></td>').append($('<input/>').attr('type','text').attr('name','dp[Position][]').attr('maxlength', '50').attr('style', 'width: 15em').val(obj.Position)).appendTo(div);
+                $('<td></td>').append($('<input/>').attr('type','text').attr('name','dp[Place][]').attr('maxlength', '100').attr('style', 'width: 25em').val(obj.Place)).appendTo(div);
+                div.append('<td><input type="button" value="Delete" onclick="return item_Delete(\'dpDelete[]\', this);" /></td>');
             div.appendTo($("#academicPositions"));
         }
 
         function LoadAcademicPositions()
         {
-            $("#academicPositions").empty();
-            $("#academicPositions").append('<div>' +
-                '<div><label>Period</label></div>' +
-                '<div><label>Position</label></div>' +
-                '<div><label>Place</label></div>' +
-                '<div></div>' +
-                '</div>');
+            EmptyTableAndCreateHeaders("#academicPositions", ["Period", "Position", "Place", ""]);
 <?php
             foreach ($this->model->academicPositions->data as $item)
             {
