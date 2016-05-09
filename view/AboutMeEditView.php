@@ -58,26 +58,31 @@ class AboutMeEditView extends BaseView
                 <form method="POST">
                     <div id="deletedItems">
                     </div>
-                    <div>
-                        <div><label accesskey="C" for="Content">Content:</label></div>
-                    </div>
-                    <div>
-                        <div><textarea id="Content" name="Content" cols="80" rows="10" autofocus><?php echo $content ?></textarea></div>
-                    </div>
-                    <div>
-                        <div><input id="cmdAddAcademicPositions" type="button" value="Add academic position"/></div>
-                    </div>
-                    <div>
+                    <div class="form">
+                        <h3>Content</h3>
                         <div>
-                            <table id="academicPositions">
-                            </table>
+                            <div><textarea id="Content" name="Content" cols="80" rows="10" autofocus><?php echo $content ?></textarea></div>
                         </div>
                     </div>
-                    <div class="form_buttons">
+                    <div class="form">
+                        <h3>Academic Positions</h3>
                         <div>
-                            <div><input type="submit" value="Save"/></div>
-                            <div><input type="button" id="cmdView" value="View page"/></div>
-                            <div><input id="cmdReset" type="button" value="Undo all"/></div>
+                            <div>
+                                <table id="academicPositions">
+                                </table>
+                            </div>
+                        </div>
+                        <div>
+                            <div><input id="cmdAddAcademicPositions" type="button" value="Add academic position"/></div>
+                        </div>
+                    </div>
+                    <div class="form">
+                        <div class="form_buttons">
+                            <div>
+                                <div><input type="submit" value="Save"/></div>
+                                <div><input type="button" id="cmdView" value="View page"/></div>
+                                <div><input id="cmdReset" type="button" value="Undo all"/></div>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -90,12 +95,13 @@ class AboutMeEditView extends BaseView
         function EmptyTableAndCreateHeaders(name, titles)
         {
             $(name).empty();
-            var div = $('<tr></tr>');
+            var head = $('<thead></thead>');
+            var div = $('<tr></tr>').appendTo(head);
             for (var i = 0; i < titles.length; i++) 
             {
                 $('<th></th>').append($('<label></label>')).text(titles[i]).appendTo(div);
             }
-            div.appendTo($(name));
+            head.appendTo($(name));
         }
         function CreateAcademicPosition(obj)
         {

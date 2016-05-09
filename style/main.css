@@ -26,21 +26,22 @@
         font-weight: normal;
     }
     
-    form
+    .form
     {
         display: table;
         table-layout: fixed;
         padding: 0.5em;
+        margin: 0em 0em 1em 0em; 
         border: solid silver;
         border-collapse: collapse;
     }
-    form div
+    .form div
     {
         display: table-row;
         padding: 0.25em;
         vertical-align: top;
     }
-    form div div
+    .form div div
     {
         display: table-cell;
         padding: .25em;
@@ -62,8 +63,15 @@
         min-width: 6em;
     }
 
+    .form_buttons input
+    {
+        font-weight: bold;
+    }
+
     .form_buttons
     {
+        border: solid silver;
+        border-collapse: collapse;
         display: table;
     }
     
@@ -75,6 +83,11 @@
     .form_buttons div div
     {
         display: table-cell;
+    }
+    
+    .form_buttons div div:last-child
+    {
+        padding-left: 4em;
     }
     
     /* BEGIN COMMON */        
@@ -209,6 +222,14 @@
         font-family: Verdana, Arial;
         font-size: 1.1em;
         font-weight: bold;
+    }
+
+    main h3
+    {
+        font-family: Verdana, Arial;
+        font-size: .9em;
+        font-weight: bold;
+        margin: 0.5em;
     }
 
     main p

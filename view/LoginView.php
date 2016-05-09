@@ -19,12 +19,14 @@ class LoginView extends BaseView
         {
 ?>
                 <form method="POST">
-                    <div>
-                        <div><label accesskey="P" for="AdminPassword">Admin password:</label></div>
-                        <div><input type="password" id="AdminPassword" name="AdminPassword" value="" autofocus /></div>
-                    </div>
-                    <div>
-                        <div><input type="submit" value="Login"/></div>
+                    <div class="form">
+                        <div>
+                            <div><label accesskey="P" for="AdminPassword">Admin password:</label></div>
+                            <div><input type="password" id="AdminPassword" name="AdminPassword" value="" autofocus /></div>
+                        </div>
+                        <div>
+                            <div><input type="submit" value="Login"/></div>
+                        </div>
                     </div>
                 </form>
 <?php        
