@@ -7,7 +7,6 @@ CREATE OR REPLACE VIEW DbInfoView AS
 (SELECT 
 	(SELECT InfoValue FROM DbInfo WHERE InfoKey = 'FirstName') FirstName,
     (SELECT InfoValue FROM DbInfo WHERE InfoKey = 'LastName') LastName,
-    CONCAT((SELECT InfoValue FROM DbInfo WHERE InfoKey = 'FirstName'), ' ', (SELECT InfoValue FROM DbInfo WHERE InfoKey = 'LastName')) FullName,
     (SELECT InfoValue FROM DbInfo WHERE InfoKey = 'UniversityName') UniversityName,
     (SELECT InfoValue FROM DbInfo WHERE InfoKey = 'FacultyName') FacultyName,
     (SELECT InfoValue FROM DbInfo WHERE InfoKey = 'Email') Email);

@@ -6,6 +6,8 @@ include 'model/BaseModel.php';
 include 'controller/BaseController.php';
 
 abstract class BaseView {
+    protected $url;
+    
     protected $model;
     protected $controller;
     
@@ -28,6 +30,7 @@ abstract class BaseView {
     public function __construct($model, $controller) 
     {
         $this->viewName = GetViewName();
+        $this->url = "index.php?view=" . $this->viewName;
         if (is_null($model) || !($model instanceof \gratz\BaseModel))
         {
             throw new \Exception("No valid model instance has been passed to view");
@@ -202,8 +205,8 @@ abstract class BaseView {
     {
 ?>
             <header>
-                <div class="portraitSmall"><img src="img/portrait_small.png" alt="<?php echo $this->model->person->FullName ?>" /></div>
-                <div class="fullName"><?php echo $this->model->person->FullName ?></div>
+                <div class="portraitSmall"><img src="img/portrait_small.png" alt="<?php echo $this->model->dbInfo->getFullName() ?>" /></div>
+                <div class="fullName"><?php echo $this->model->dbInfo->getFullName() ?></div>
             </header>
 <?php
     }
@@ -225,12 +228,12 @@ abstract class BaseView {
             <header>
                 <div id="organisationName">
                     <div id="navButton"><input id="cmdNavButton" name="navButton" type="button" value="="/></div>
-                    <div id="universityName"><?php echo $this->model->person->UniversityName ?></div>
-                    <div id="facultyName"><?php echo $this->model->person->FacultyName ?></div>
+                    <div id="universityName"><?php echo $this->model->dbInfo->UniversityName ?></div>
+                    <div id="facultyName"><?php echo $this->model->dbInfo->FacultyName ?></div>
                 </div>
                 <div id="smallNavHeader">
-                    <div class="portrait"><img src="img/portrait_small.png" alt="<?php echo $this->model->person->FullName ?>" /></div>
-                    <div class="fullName"><?php echo $this->model->person->FullName ?></div>
+                    <div class="portrait"><img src="img/portrait_small.png" alt="<?php echo $this->model->dbInfo->getFullName() ?>" /></div>
+                    <div class="fullName"><?php echo $this->model->dbInfo->getFullName() ?></div>
                 </div>
             </header>
 <?php
@@ -261,7 +264,7 @@ abstract class BaseView {
     {
 ?>
             <footer>
-                <p>&copy;&nbsp;<?php echo '<a href="mailto:' . $this->model->person->Email . '" title="' . $this->model->person->FullName . '">' . $this->model->person->FullName . '</a>' ?> 2016</p>
+                <p>&copy;&nbsp;<?php echo '<a href="mailto:' . $this->model->dbInfo->Email . '" title="' . $this->model->dbInfo->getFullName() . '">' . $this->model->dbInfo->getFullName() . '</a>' ?> 2016</p>
             </footer>
 <?php
     }

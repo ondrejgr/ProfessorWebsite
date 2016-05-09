@@ -90,11 +90,6 @@
         display: table-cell;
     }
     
-    .form_buttons div div:last-child
-    {
-        padding-left: 4em;
-    }
-    
     /* BEGIN COMMON */        
     a
     {

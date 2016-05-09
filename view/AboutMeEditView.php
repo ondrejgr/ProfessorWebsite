@@ -23,7 +23,7 @@ class AboutMeEditView extends BaseView
         include "view/editors/DeleteItemJS.php";
         $this->GenerateMessages();
 ?>
-                <form method="POST" autocomplete="OFF">
+                <form method="POST" autocomplete="OFF" action="<?php echo $this->url ?>">
                     <div id="deletedItems">
                     </div>
                     <div class="form">
@@ -62,6 +62,14 @@ class AboutMeEditView extends BaseView
                                 <div><input type="submit" value="Save"/></div>
                                 <div><input type="button" id="cmdView" value="View page"/></div>
                                 <div><input id="cmdReset" type="button" value="Undo all"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form">
+                        <div>
+                            <div>
+                                <div><a href="index.php?view=PersonEdit" title="Edit personal information">Edit personal information</a></div>
+                                <div><a href="index.php?view=PortraitEdit" title="Change profile pictures">Change profile pictures</a></div>
                             </div>
                         </div>
                     </div>

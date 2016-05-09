@@ -1,39 +1,48 @@
 <?php
+
 namespace gratz;
 
 /**
- * Description of Person
+ * Description of DbInfoView
  *
  * @author ondrej.gratz
  */
-class Person 
-{
-    private $pdo;
+class DbInfoView {
     
+    private $pdo;
+        
     public function __construct($pdo) 
     {
+        if (!$pdo)
+        {
+            throw new \Exception("No PDO object passed to DbInfoView constructor");
+        }
         $this->pdo = $pdo;
+        
         $this->Load();
     }
     
     public $FirstName;
     public $LastName;
-    public $FullName;
     public $UniversityName;
     public $FacultyName;
     public $Email;
     
-    private function PrepareForDisplay($item)
+    public function getFullName()
+    {
+        return $this->FirstName . " " . $this->LastName;
+    }
+    
+    private function SetPropertiesFromDb($item)
     {
         $this->FirstName = filter_var($item->FirstName, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $this->LastName = filter_var($item->LastName, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $this->FullName = filter_var($item->FullName, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $this->UniversityName = filter_var($item->UniversityName, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $this->FacultyName = filter_var($item->FacultyName, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $this->Email = filter_var($item->Email, FILTER_SANITIZE_EMAIL);
     }
     
-    public function Load()
+    private function Load()
     {
         $sth = $this->pdo->query("SELECT * FROM DbInfoView;", \PDO::FETCH_OBJ);
         if (!$sth)
@@ -49,6 +58,7 @@ class Person
             throw new \Exception("Personal information was not found in database");
         }
         
-        $this->PrepareForDisplay($item);
+        $this->SetPropertiesFromDb($item);
     }
+
 }

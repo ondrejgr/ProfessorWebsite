@@ -18,7 +18,7 @@ class LoginView extends BaseView
         if (!$this->isPostBack)
         {
 ?>
-                <form method="POST">
+                <form method="POST" action="<?php echo $this->url ?>">
                     <div class="form">
                         <div>
                             <div><label accesskey="P" for="AdminPassword">Admin password:</label></div>

@@ -11,6 +11,7 @@ INSERT IGNORE INTO DbInfo (InfoKey, InfoValue) VALUES ('Email', 'jennifer.doe@no
 
 INSERT IGNORE INTO Pages (Name, Title, NavIndex) VALUES ('PageNotFound', 'Page Not Found', 0);
 INSERT IGNORE INTO Pages (Name, Title, NavIndex) VALUES ('Login', 'Login', 0);
+INSERT IGNORE INTO Pages (Name, Title, NavIndex) VALUES ('Person', 'Personal Information', 0);
 
 INSERT IGNORE INTO Pages (Name, Title, NavIndex) VALUES ('AboutMe', 'About Me', 1);
 INSERT IGNORE INTO Pages (Name, Title, NavIndex) VALUES ('Research', 'Research', 2);

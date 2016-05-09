@@ -42,9 +42,8 @@ class LoginController extends BaseController {
         {
             $this->LogoutAdmin();
             $this->model->setError("Login failed.");
+            $this->model->RefreshNavItems();
+            return FALSE;
         }
-        $this->model->RefreshNavItems();
-        
-        return FALSE;
     }
 }

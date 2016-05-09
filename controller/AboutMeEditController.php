@@ -12,12 +12,7 @@ class AboutMeEditController extends BaseController {
     {
         try
         {
-            $content = filter_input(INPUT_POST, 'Content');
-            if (!is_string($content))
-            {
-                throw new \GratzException("No content specified");
-            }
-            $this->model->updateContent($content);
+            $this->UpdateContent();
 
             $this->UpdateAcademicPositions();
             $this->UpdateEducationTraining();
@@ -30,6 +25,16 @@ class AboutMeEditController extends BaseController {
             $this->model->setError("Error saving data: $message.");
             return FALSE;
         }
+    }
+    
+    private function UpdateContent()
+    {
+        $content = filter_input(INPUT_POST, 'Content');
+        if (!is_string($content))
+        {
+            throw new \GratzException("No content specified");
+        }
+        $this->model->updateContent($content);
     }
     
     private function UpdateAcademicPositions()

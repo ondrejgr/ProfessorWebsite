@@ -1,7 +1,7 @@
 <?php
 namespace gratz;
-include "model/NavItem.php";
-include "model/Person.php";
+include "model/NavItemsLoader.php";
+include "model/DbInfoView.php";
 
 class BaseModel {
     /* @var $pdo PDO */
@@ -10,7 +10,7 @@ class BaseModel {
     protected $cmdSetDbInfoItem;
     
     public $navItems = array();
-    public $person;
+    public $dbInfo;
    
     public $isEditor = FALSE;
     
@@ -91,41 +91,7 @@ class BaseModel {
         }
         return isset($_SESSION['IS_ADMIN']) && is_bool($_SESSION['IS_ADMIN']) && $_SESSION['IS_ADMIN'];
     }
-   
-    private function SanitizeNavItem($item)
-    {
-        $item->Title = filter_var($item->Title, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $item->Url = filter_var($item->Url, FILTER_SANITIZE_URL);
-    }
-    
-    private function LoadNavItems()
-    {
-        $this->navItems = array();
-        $adminFilter = '';
-        if (!$this->IsAdminLoggedIn())
-        {
-            $adminFilter = ' AND IsAdmin = 0';
-            $url = 'Name';
-        }
-        else
-        {
-            $url = "Name, CASE WHEN IsAdmin = 0 THEN 'Edit' ELSE '' END";
-        }
-        $sth = $this->pdo->query("SELECT Name, Title, NavIndex, IsAdmin, CONCAT('index.php?view=', " . $url . ") Url FROM Pages WHERE NavIndex > 0" . $adminFilter . " ORDER BY NavIndex;", 
-                    \PDO::FETCH_CLASS, "\gratz\NavItem");
-        if (!$sth)
-        {
-            throw new \Exception("Unable to load NavItems");
-        }
-
-        while ($navItem = $sth->fetch())
-        {
-            $this->SanitizeNavItem($navItem);
-            $this->navItems[] = $navItem;
-        }
-        $sth->closeCursor();
-    }
-    
+        
     private function LoadPageData()
     {
         $sth = $this->pdo->prepare("SELECT Name, Title FROM Pages WHERE Name = :Name;");
@@ -141,11 +107,21 @@ class BaseModel {
 
         $sth->closeCursor();
     }
+
+    public function Refresh()
+    {
+        $this->LoadData();
+    }
+    
+    public function RefreshNavItems()
+    {
+        $this->LoadNavItems();
+    }
     
     private function LoadData()
     {
         $this->setWebTitle($this->GetDbInfoItem('Title'));
-        $this->person = new Person($this->pdo);
+        $this->dbInfo = new \gratz\DbInfoView($this->pdo);
         if (is_string($this->pageName) && (strlen($this->pageName) > 0)) 
         {
             $this->LoadPageData();
@@ -154,7 +130,29 @@ class BaseModel {
         $this->OnLoadData();
     }
     
+    public function SaveData()
+    {
+        $this->OnValidateData();
+        $this->OnSaveData();
+    }
+    
+    private function LoadNavItems()
+    {
+        $o = new NavItemsLoader($this->pdo, $this->IsAdminLoggedIn());
+        $this->navItems = $o->GetNavItems();
+    }
+    
     protected function OnLoadData()
+    {
+        
+    }
+    
+    protected function OnSaveData()
+    {
+        throw new \Exception("Save data operation is not implemented");
+    }
+    
+    protected function OnValidateData()
     {
         
     }
@@ -220,16 +218,6 @@ class BaseModel {
     {
         $this->cmdGetDbInfoItem = NULL;
         $this->pdo = NULL;
-    }
-    
-    public function Refresh()
-    {
-        $this->LoadData();
-    }
-    
-    public function RefreshNavItems()
-    {
-        $this->LoadNavItems();
     }
     
     public function __construct($pageName, $isEditor = FALSE) 

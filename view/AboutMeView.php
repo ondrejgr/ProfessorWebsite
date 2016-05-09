@@ -14,7 +14,7 @@ class AboutMeView extends BaseView
     private function GeneratePortrait()
     {
 ?>
-                <div class="portrait"><img src="img/portrait.png" alt="<?php echo $this->model->person->FullName ?>" /></div>
+                <div class="portrait"><img src="img/portrait.png" alt="<?php echo $this->model->dbInfo->getFullName() ?>" /></div>
 <?php
     }
     
