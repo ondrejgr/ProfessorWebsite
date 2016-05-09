@@ -65,7 +65,7 @@ class ItemsCollection {
     {
         if (!$item)
         {
-            throw new \GratzSanitizeException("Unable to sanitize NULL object");
+            throw new \GratzException("Unable to sanitize NULL object");
         }
     }
     

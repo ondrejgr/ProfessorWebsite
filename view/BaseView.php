@@ -39,15 +39,13 @@ abstract class BaseView {
 
         $this->model = $model;
         $this->controller = $controller;
-        
-        $this->CheckInfoMessageKey();
     }
     
-    private function CheckInfoMessageKey()
+    private function SetInfoMessageKeyFromGET()
     {
         if (isset($_GET['info']) && is_string($_GET['info']))
         {
-            $this->infoMessageKey = filter_input(INPUT_GET, 'info', FILTER_SANITIZE_STRING);
+            $this->setInfoMessageKey(filter_input(INPUT_GET, 'info', FILTER_SANITIZE_STRING));
         }
     }
     
@@ -81,12 +79,17 @@ abstract class BaseView {
                 header( "Location: " . BASE_URL . "index.php?view=" . $this->viewName . "&info=$post_result" );
                 die();
             }
+            else 
+            {
+                $this->setInfoMessageKey("");
+            }
             $this->setIsPostBack(\TRUE);
         }
         if (filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING) === 'GET')
         {
+            $this->SetInfoMessageKeyFromGET();
             $this->controller->ProcessGET();
-            $this->setIsPostBack(strlen($this->GenerateInfoMessage()) > 0);
+            $this->setIsPostBack($this->InfoMessageExists());
         }            
     }
     
@@ -284,6 +287,11 @@ abstract class BaseView {
     });
         </script>
 <?php
+    }
+    
+    private function InfoMessageExists()
+    {
+        return strlen($this->GenerateInfoMessage()) > 0;
     }
     
     private function GenerateInfoMessage()

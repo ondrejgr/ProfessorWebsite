@@ -26,6 +26,11 @@
         font-weight: normal;
     }
     
+    th
+    {
+        text-align: left;
+    }
+    
     .form
     {
         display: table;

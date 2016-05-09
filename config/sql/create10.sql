@@ -33,3 +33,12 @@ CREATE TABLE IF NOT EXISTS AcademicPositions (
     Position NVARCHAR(50) NULL,
     Place NVARCHAR(100) NULL
 ) COLLATE 'utf8_czech_ci';
+
+DROP TABLE IF EXISTS EducationTraining;
+CREATE TABLE IF NOT EXISTS EducationTraining (
+    ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    Degree NVARCHAR(10) NOT NULL,
+    Year INT NOT NULL,
+    Position NVARCHAR(50) NULL,
+    Place NVARCHAR(100) NULL
+) COLLATE 'utf8_czech_ci';

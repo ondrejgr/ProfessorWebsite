@@ -13,22 +13,6 @@ class AboutMeEditView extends BaseView
         parent::__construct($model, $controller);
     }
 
-    protected function OnGenerateHead()
-    {
-?>
-    <style>
-        #academicPositions
-        {
-            display: table-row;
-        }
-        #academicPositions th
-        {
-            text-align: left;
-        }
-    </style>
-<?php
-    }
-    
     protected function OnGenerateContent()
     {
         $content = '';
@@ -36,26 +20,10 @@ class AboutMeEditView extends BaseView
         {
             $content = $this->model->content;
         }
+        include "view/editors/DeleteItemJS.php";
+        $this->GenerateMessages();
 ?>
-                <script>
-                    function item_Delete(name, obj)
-                    {
-                        var div = $(obj).parent().parent();
-                        if (div)
-                        {
-                            id = div.find("input[name*='[ID][]']").val();
-                            if (id && id > 0)
-                            {
-                                $('<input/>').attr('type','hidden').attr('name',name).val(id).appendTo($("#deletedItems"));
-                            }
-                            div.remove();
-                        }
-                    }
-                </script>
-<?php
-                $this->GenerateMessages();
-?>
-                <form method="POST">
+                <form method="POST" autocomplete="OFF">
                     <div id="deletedItems">
                     </div>
                     <div class="form">
@@ -77,6 +45,18 @@ class AboutMeEditView extends BaseView
                         </div>
                     </div>
                     <div class="form">
+                        <h3>Education & Training</h3>
+                        <div>
+                            <div>
+                                <table id="educationTraining">
+                                </table>
+                            </div>
+                        </div>
+                        <div>
+                            <div><input id="cmdAddEducationTraining" type="button" value="Add education/training"/></div>
+                        </div>
+                    </div>
+                    <div class="form">
                         <div class="form_buttons">
                             <div>
                                 <div><input type="submit" value="Save"/></div>
@@ -88,57 +68,18 @@ class AboutMeEditView extends BaseView
                 </form>
 <?php
     }
-    
-    private function GenerateAcademicPositionEditor()
-    {
-?>
-        function EmptyTableAndCreateHeaders(name, titles)
-        {
-            $(name).empty();
-            var head = $('<thead></thead>');
-            var div = $('<tr></tr>').appendTo(head);
-            for (var i = 0; i < titles.length; i++) 
-            {
-                $('<th></th>').append($('<label></label>')).text(titles[i]).appendTo(div);
-            }
-            head.appendTo($(name));
-        }
-        function CreateAcademicPosition(obj)
-        {
-            var div = $('<tr></tr>');
-                $('<input/>').attr('type','hidden').attr('name','dp[ID][]').val(obj.ID).appendTo(div);
-                $('<td></td>').append($('<input/>').attr('type','text').attr('name','dp[Period][]').attr('maxlength', '30').attr('required', 'true').attr('style', 'width: 6em').val(obj.Period)).appendTo(div);
-                $('<td></td>').append($('<input/>').attr('type','text').attr('name','dp[Position][]').attr('maxlength', '50').attr('style', 'width: 15em').val(obj.Position)).appendTo(div);
-                $('<td></td>').append($('<input/>').attr('type','text').attr('name','dp[Place][]').attr('maxlength', '100').attr('style', 'width: 25em').val(obj.Place)).appendTo(div);
-                div.append('<td><input type="button" value="Delete" onclick="return item_Delete(\'dpDelete[]\', this);" /></td>');
-            div.appendTo($("#academicPositions"));
-        }
-
-        function LoadAcademicPositions()
-        {
-            EmptyTableAndCreateHeaders("#academicPositions", ["Period", "Position", "Place", ""]);
-<?php
-            foreach ($this->model->academicPositions->data as $item)
-            {
-                echo "            CreateAcademicPosition(" . json_encode($item) . ");\n";
-            }
-?>
-        }
-
-        $("#cmdAddAcademicPositions").click(function(){
-            CreateAcademicPosition({"ID":"","Period":"","Position":"","Place":""});
-        });
-<?php        
-    }
-    
+ 
     protected function OnGenerateScript()
     {
-        $this->GenerateAcademicPositionEditor();
+        include "view/editors/Common.php";
+        include "view/editors/AcademicPositionsEditor.php";
+        include "view/editors/EducationTrainingEditor.php";        
 ?>        
         function LoadData()
         {
             $("#deletedItems").empty();
             LoadAcademicPositions();
+            LoadEducationTraining();
         }
 
         $("#cmdView").click(function(){

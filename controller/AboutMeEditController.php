@@ -20,6 +20,7 @@ class AboutMeEditController extends BaseController {
             $this->model->updateContent($content);
 
             $this->UpdateAcademicPositions();
+            $this->UpdateEducationTraining();
             
             return "data_saved";
         }
@@ -43,5 +44,19 @@ class AboutMeEditController extends BaseController {
         
         $itemsToUpdate = $this->GetItemsToUpdate($items);
         $this->model->academicPositions->UpdateItems($itemsToUpdate);
+    }
+        
+    private function UpdateEducationTraining()
+    {
+        $itemKeysToDelete = $this->GetItemKeysToDeleteFromPostData("et");
+        $this->model->educationTraining->DeleteItemsByKeys($itemKeysToDelete);
+        
+        $items = $this->GetItemsFromPostData("et");
+        
+        $itemsToInsert = $this->GetItemsToInsert($items);
+        $this->model->educationTraining->InsertItems($itemsToInsert);
+        
+        $itemsToUpdate = $this->GetItemsToUpdate($items);
+        $this->model->educationTraining->UpdateItems($itemsToUpdate);
     }
 }
