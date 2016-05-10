@@ -59,7 +59,7 @@
     
     .content
     {
-        
+        max-width: 45em;        
     }
 
     textarea
@@ -116,48 +116,87 @@
         padding: 0em 0em 0em 0em;
     }
     
-    .collections section div 
+    .collections section ul
     {
-        display: table;
-        table-layout: fixed;
-        border-collapse: collapse;
-    }
-    
-    .collections section div div
-    {
-        display: table-row;
+        list-style: none;
+        padding: 0;
     }
 
-    .collections section div div div
+    .collections section ul li
     {
-        padding: 0em .5em .5em .5em;
-        display: table-cell;
+        padding: .5em .5em .5em .5em;
     }
     
-    .collections section div div [data-prop-name="ID"] 
+    .collections section ul li [data-prop-name="ID"] 
     {
         display: none;
     }
 
-    .collections section div div [data-prop-name="Period"] 
+    /* BEGIN ACADEMIC POS */
+    .collections section ul li [data-prop-name="Period"] 
     {
+        float: left;
         font-weight: bold;
+        width: 6em;
+    }
+    
+    .collections section ul li [data-prop-name="Position"] 
+    {
+        float: left;
+        margin-left: 1em;
     }
 
-    .collections section div div [data-prop-name="Degree"] 
+    .collections section ul li [data-prop-name="Place"] 
     {
-        font-weight: bold;
-    }
-
-    .collections section div div [data-prop-name="Date"] 
-    {
-        font-weight: bold;
-    }
-
-    .collections section div div [data-prop-name="Place"] 
-    {
+        clear: both;
         font-style: italic;
     }
+    /* END ACADEMIC POS */
+
+    /* BEGIN Education Training */
+    .collections section ul li [data-prop-name="Degree"] 
+    {
+        float: left;
+        font-weight: bold;
+        width: 3em;
+    }
+    
+    .collections section ul li [data-prop-name="Year"] 
+    {
+        float: left;
+        font-weight: bold;
+        width: 3em;
+    }
+
+    .collections section ul li [data-prop-name="Position"] 
+    {
+        float: left;
+    }
+    /* END Education Training */
+    
+    /* BEGIN honors */
+    .collections section ul li [data-prop-name="Date"] 
+    {
+        float: left;
+        font-weight: bold;
+        width: 3em;
+    }
+
+    .collections section ul li [data-prop-name="Title"] 
+    {
+        float: left;
+        text-align: left;
+        margin-left: 1em;
+    }
+
+    .collections section ul li [data-prop-name="Detail"] 
+    {
+        clear: both;
+        padding-left: 5em;
+        font-size: .8em;
+        max-width: 40em;  
+    }
+    /* END honors */
     
     .collections section .collection-title
     {
@@ -167,17 +206,17 @@
         font-weight: bold;
     }
     
-    .collections section div .collection-row
+    .collections section ul .collection-row
     {
         clear: both;
     }
 
-    .collections section div .collection-row:nth-of-type(odd)
+    .collections section ul .collection-row:nth-of-type(odd)
     {
         background-color: lightyellow;
     }
 
-    .collections section div .collection-row:nth-of-type(even)
+    .collections section ul .collection-row:nth-of-type(even)
     {
         background-color: white;
     }
@@ -228,7 +267,6 @@
     {
         display: table-cell;
         vertical-align: top;
-        max-width: 45em;        
     }
 
     #footer

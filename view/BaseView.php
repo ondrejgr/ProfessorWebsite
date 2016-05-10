@@ -405,21 +405,21 @@ abstract class BaseView {
 ?>
                     <section class="<?php echo (new \ReflectionClass($collection))->getShortName() ?>">
                         <div class="collection-title"><?php echo $collection->title ?></div>
-                        <div>
+                        <ul>
 <?php
         foreach ($collection->data as $item)
         {
 ?>
-                            <div class="collection-row">
+                            <li class="collection-row">
 <?php
             $this->RenderCollectionItem($item);
 ?>
 
-                            </div>
+                            </li>
 <?php
         }
 ?>
-                        </div>
+                        </ul>
                     </section>
 <?php
     }
