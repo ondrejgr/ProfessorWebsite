@@ -7,6 +7,7 @@ include "model/collections/ItemsCollection.php";
 
 include "model/collections/AcademicPositionsCollection.php";
 include "model/collections/EducationTrainingCollection.php";
+include "model/collections/HonorsCollection.php";
 
 /**
  * Description of AboutMeModel
@@ -26,11 +27,13 @@ class AboutMeModel extends \gratz\ContentModel {
     
     public $academicPositions;
     public $educationTraining;
+    public $honors;
    
     protected function OnLoadData()
     {
         parent::OnLoadData();
         $this->academicPositions = new AcademicPositionsCollection($this->pdo, $this->isEditor);
         $this->educationTraining = new EducationTrainingCollection($this->pdo, $this->isEditor);
+        $this->honors = new HonorsCollection($this->pdo, $this->isEditor);
     }
 }

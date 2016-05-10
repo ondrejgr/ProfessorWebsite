@@ -57,6 +57,18 @@ class AboutMeEditView extends BaseView
                         </div>
                     </div>
                     <div class="form">
+                        <h3>Honors, Awards & Grants</h3>
+                        <div>
+                            <div>
+                                <table id="honors">
+                                </table>
+                            </div>
+                        </div>
+                        <div>
+                            <div><input id="cmdAddHonor" type="button" value="Add honor/award/grant"/></div>
+                        </div>
+                    </div>
+                    <div class="form">
                         <div class="form_buttons">
                             <div>
                                 <div><input type="submit" value="Save"/></div>
@@ -82,12 +94,14 @@ class AboutMeEditView extends BaseView
         include "view/editors/Common.php";
         include "view/editors/AcademicPositionsEditor.php";
         include "view/editors/EducationTrainingEditor.php";        
+        include "view/editors/HonorsEditor.php";        
 ?>        
         function LoadData()
         {
             $("#deletedItems").empty();
             LoadAcademicPositions();
             LoadEducationTraining();
+            LoadHonors();
         }
 
         $("#cmdView").click(function(){

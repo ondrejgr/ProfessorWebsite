@@ -32,5 +32,9 @@ class AcademicPositionsCollection extends ItemsCollection
         {
             throw new \GratzValidationException("Period must be specified for every Academic position");
         }
+        if (!is_string($item->Position) || strlen($item->Position) == 0)
+        {
+            throw new \GratzValidationException("Position must be specified for every Academic position");
+        }
     }
 }

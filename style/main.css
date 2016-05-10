@@ -52,6 +52,16 @@
         padding: .25em;
     }
     
+    .form td
+    {
+        vertical-align: top;
+    }
+
+    textarea
+    {
+        margin: 0;
+    }
+    
     input[type=submit]
     {
         min-width: 6em;
