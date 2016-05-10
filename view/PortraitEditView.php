@@ -10,6 +10,7 @@ class PortraitEditView extends BaseView
     public function __construct($model, $controller) 
     {
         $this->is_admin_required = \TRUE;
+        $this->do_not_cache = \TRUE;
         parent::__construct($model, $controller);
     }
 

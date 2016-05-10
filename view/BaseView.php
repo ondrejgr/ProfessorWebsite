@@ -12,6 +12,7 @@ abstract class BaseView {
     protected $controller;
     
     protected $is_admin_required = \FALSE;
+    protected $do_not_cache = \FALSE;
     
     public $isPostBack = \FALSE;
     public function setIsPostBack($isPostBack)
@@ -26,7 +27,7 @@ abstract class BaseView {
     }
     
     public $viewName;
-
+        
     public function __construct($model, $controller) 
     {
         $this->viewName = GetViewName();
@@ -71,6 +72,23 @@ abstract class BaseView {
 <?php
     }
 
+    private function PutCustomHeaders()
+    {
+        if ($this->do_not_cache)
+        {
+            header('Pragma: no-cache');
+            header('Expires: Fri, 30 Oct 1998 14:19:41 GMT');
+            header('Cache-Control: no-cache, must-revalidate');
+        }
+    }
+    
+    public function Redirect($url)
+    {
+        header( 'HTTP/1.1 303 See Other' );
+        header( "Location: " . $url );
+        die();
+    }
+    
     private function ProcessMethods()
     {        
         if (filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING) === 'POST')
@@ -78,18 +96,19 @@ abstract class BaseView {
             $post_result = $this->controller->ProcessPOST();
             if ($post_result)
             {
-                header( 'HTTP/1.1 303 See Other' );
-                header( "Location: " . BASE_URL . "index.php?view=" . $this->viewName . "&info=$post_result" );
-                die();
+                $this->Redirect(BASE_URL . "index.php?view=" . $this->viewName . "&info=$post_result");
+                return;
             }
             else 
             {
+                $this->PutCustomHeaders();
                 $this->setInfoMessageKey("");
+                $this->setIsPostBack(\TRUE);
             }
-            $this->setIsPostBack(\TRUE);
         }
         if (filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING) === 'GET')
         {
+            $this->PutCustomHeaders();
             $this->SetInfoMessageKeyFromGET();
             $this->controller->ProcessGET();
             $this->setIsPostBack($this->InfoMessageExists());
