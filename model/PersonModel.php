@@ -23,6 +23,31 @@ class PersonModel extends \gratz\BaseModel {
     public $FacultyName;
     public $Email;
     
+    public function setFirstName($value)
+    {
+        $this->FirstName = $value;
+    }
+
+    public function setLastName($value)
+    {
+        $this->LastName = $value;
+    }
+    
+    public function setUniversityName($value)
+    {
+        $this->UniversityName = $value;
+    }
+    
+    public function setFacultyName($value)
+    {
+        $this->FacultyName = $value;
+    }
+    
+    public function setEmail($value)
+    {
+        $this->Email = $value;
+    }
+    
     public function getFullName()
     {
         return $this->FirstName . " " . $this->LastName;
