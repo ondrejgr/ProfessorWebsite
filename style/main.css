@@ -56,6 +56,11 @@
     {
         vertical-align: top;
     }
+    
+    .content
+    {
+        
+    }
 
     textarea
     {
@@ -100,6 +105,83 @@
         display: table-cell;
     }
     
+    .collections
+    {
+        clear: both;
+    }
+    
+    .collections section
+    {
+        margin: .5em .5em 1em 0em;
+        padding: 0em 0em 0em 0em;
+    }
+    
+    .collections section div 
+    {
+        display: table;
+        table-layout: fixed;
+        border-collapse: collapse;
+    }
+    
+    .collections section div div
+    {
+        display: table-row;
+    }
+
+    .collections section div div div
+    {
+        padding: 0em .5em .5em .5em;
+        display: table-cell;
+    }
+    
+    .collections section div div [data-prop-name="ID"] 
+    {
+        display: none;
+    }
+
+    .collections section div div [data-prop-name="Period"] 
+    {
+        font-weight: bold;
+    }
+
+    .collections section div div [data-prop-name="Degree"] 
+    {
+        font-weight: bold;
+    }
+
+    .collections section div div [data-prop-name="Date"] 
+    {
+        font-weight: bold;
+    }
+
+    .collections section div div [data-prop-name="Place"] 
+    {
+        font-style: italic;
+    }
+    
+    .collections section .collection-title
+    {
+        margin: .5em .5em .5em .5em;
+        font-family: Verdana, Arial;
+        font-size: 1em;
+        font-weight: bold;
+    }
+    
+    .collections section div .collection-row
+    {
+        clear: both;
+    }
+
+    .collections section div .collection-row:nth-of-type(odd)
+    {
+        background-color: lightyellow;
+    }
+
+    .collections section div .collection-row:nth-of-type(even)
+    {
+        background-color: white;
+    }
+   
     /* BEGIN COMMON */        
     a
     {

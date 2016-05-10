@@ -11,30 +11,59 @@ class AboutMeView extends BaseView
         parent::__construct($model, $controller);
     }
 
-    private function GeneratePortrait()
-    {
+    protected function OnGenerateHead() {
 ?>
-                <div class="portrait"><img src="img/portrait.png" alt="<?php echo $this->model->dbInfo->getFullName() ?>" /></div>
+        <style>
+            @media only screen and (min-width: 768px) 
+            {
+                .AcademicPositionsCollection
+                {
+                    float: left;
+                }
+                .EducationTrainingCollection
+                {
+                    float: left;
+                }
+                .HonorsCollection
+                {
+                    float: left;
+                }
+            }
+        </style>
 <?php
     }
     
+    private function RenderPortrait()
+    {
+?>
+                    <div class="portrait"><img src="img/portrait.png" alt="<?php echo $this->model->dbInfo->getFullName() ?>" /></div>
+<?php
+    }
+        
+    protected function OnRenderBeforeContent()
+    {
+        $this->RenderPortrait();        
+    }
+    
+    
     protected function OnGenerateContent()
     {
-        if (is_string($this->model->content) && strlen($this->model->content) > 0)
-        {
-            $this->GeneratePortrait();
-
-            $array = explode("\n", str_replace("\r", '', $this->model->content));
-            if (!$array)
-            {
-                return FALSE;
-            }
-            
-            foreach ($array as $item)
-            {
-                echo "                <p>$item</p>\n";
-            }
-        }
+        $this->RenderContent();
+?>
+                <div class="collections">
+<?php
+        $this->RenderCollection($this->model->academicPositions);
+        $this->RenderCollection($this->model->educationTraining);
+?>
+                </div>
+<?php
+?>
+                <div class="collections">
+<?php
+        $this->RenderCollection($this->model->honors);
+?>
+                </div>
+<?php
     }
 }
 

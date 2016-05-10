@@ -13,7 +13,10 @@ class ItemsCollection {
 
     private $doNotSanitize;
     
-    public $data = array();
+    public $data;
+    public $titles;
+    
+    public $title;
 
     public function __construct($pdo, $doNotSanitize) 
     {
@@ -31,7 +34,9 @@ class ItemsCollection {
         }, $this->baseProperties));
 
         $this->doNotSanitize = $doNotSanitize;
-        
+
+        $this->titles = $this->GetPropertyTitles();
+        $this->title = filter_var($this->GetCollectionTitle(), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $this->Load();
     }
     
@@ -59,6 +64,16 @@ class ItemsCollection {
             $this->data[] = $item;
         }
         $sth->closeCursor();
+    }
+    
+    protected function GetPropertyTitles()
+    {
+        return array();
+    }
+    
+    protected function GetCollectionTitle()
+    {
+        return \get_class($this);
     }
     
     protected function PrepareItemForDisplay($item)

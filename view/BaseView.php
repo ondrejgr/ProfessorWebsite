@@ -357,6 +357,73 @@ abstract class BaseView {
         }
     }
     
+    protected function OnRenderBeforeContent()
+    {
+    }
+
+    protected function RenderContent()
+    {
+?>
+                <div class="content">
+<?php
+        if (is_string($this->model->content) && strlen($this->model->content) > 0)
+        {
+            $this->OnRenderBeforeContent();
+
+            $array = explode("\n", str_replace("\r", '', $this->model->content));
+            if (!$array)
+            {
+                return FALSE;
+            }
+            
+            foreach ($array as $item)
+            {
+                echo "                    <p>$item</p>\n";
+            }
+        }
+?>
+                </div>
+<?php
+    }
+    
+    protected function RenderCollectionItem($item)
+    {
+        foreach ($item as $name => $value)
+        {
+?>
+                                <div data-prop-name="<?php echo $name ?>"><?php echo $value ?></div>
+<?php
+        }
+    }
+    
+    protected function RenderCollection($collection)
+    {
+        if (!is_a($collection, '\Gratz\ItemsCollection'))
+        {
+            throw new \GratzException("Unable to render collection - invalid object type");
+        }
+?>
+                    <section class="<?php echo (new \ReflectionClass($collection))->getShortName() ?>">
+                        <div class="collection-title"><?php echo $collection->title ?></div>
+                        <div>
+<?php
+        foreach ($collection->data as $item)
+        {
+?>
+                            <div class="collection-row">
+<?php
+            $this->RenderCollectionItem($item);
+?>
+
+                            </div>
+<?php
+        }
+?>
+                        </div>
+                    </section>
+<?php
+    }
+    
     protected function OnGenerateHead()
     {
     }

@@ -14,15 +14,20 @@ class EducationTrainingCollection extends ItemsCollection
         parent::__construct($pdo, $doNotSanitize);
     }    
     
+    protected function GetCollectionTitle()
+    {
+        return "Education & Training";
+    }
+
     protected function PrepareItemForDisplay($item)
     {
         parent::PrepareItemForDisplay($item);
         
         $item->ID = filter_var($item->ID, FILTER_SANITIZE_NUMBER_INT);
-        $item->Degree = filter_var($item->Degree, FILTER_SANITIZE_STRING);
+        $item->Degree = filter_var($item->Degree, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $item->Year = filter_var($item->Year, FILTER_SANITIZE_NUMBER_INT);
-        $item->Position = filter_var($item->Position, FILTER_SANITIZE_STRING);
-        $item->Place = filter_var($item->Place, FILTER_SANITIZE_STRING);
+        $item->Position = filter_var($item->Position, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $item->Place = filter_var($item->Place, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     }
     
     protected function ValidateItem($item)

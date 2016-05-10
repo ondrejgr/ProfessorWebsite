@@ -14,14 +14,19 @@ class HonorsCollection extends ItemsCollection
         parent::__construct($pdo, $doNotSanitize);
     }    
     
+    protected function GetCollectionTitle()
+    {
+        return "Honors, Awards & Grants";
+    }
+    
     protected function PrepareItemForDisplay($item)
     {
         parent::PrepareItemForDisplay($item);
         
         $item->ID = filter_var($item->ID, FILTER_SANITIZE_NUMBER_INT);
-        $item->Date = filter_var($item->Date, FILTER_SANITIZE_STRING);
-        $item->Title = filter_var($item->Title, FILTER_SANITIZE_STRING);
-        $item->Detail = filter_var($item->Detail, FILTER_SANITIZE_STRING);
+        $item->Date = filter_var($item->Date, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $item->Title = filter_var($item->Title, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $item->Detail = filter_var($item->Detail, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     }
     
     protected function ValidateItem($item)

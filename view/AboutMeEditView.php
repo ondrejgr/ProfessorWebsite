@@ -33,7 +33,7 @@ class AboutMeEditView extends BaseView
                         </div>
                     </div>
                     <div class="form">
-                        <h3>Academic Positions</h3>
+                        <h3><?php echo $this->model->academicPositions->title ?></h3>
                         <div>
                             <div>
                                 <table id="academicPositions">
@@ -45,7 +45,7 @@ class AboutMeEditView extends BaseView
                         </div>
                     </div>
                     <div class="form">
-                        <h3>Education & Training</h3>
+                        <h3><?php echo $this->model->educationTraining->title ?></h3>
                         <div>
                             <div>
                                 <table id="educationTraining">
@@ -57,7 +57,7 @@ class AboutMeEditView extends BaseView
                         </div>
                     </div>
                     <div class="form">
-                        <h3>Honors, Awards & Grants</h3>
+                        <h3><?php echo $this->model->honors->title ?></h3>
                         <div>
                             <div>
                                 <table id="honors">

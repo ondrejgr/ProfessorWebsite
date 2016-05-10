@@ -14,14 +14,19 @@ class AcademicPositionsCollection extends ItemsCollection
         parent::__construct($pdo, $doNotSanitize);
     }    
     
+    protected function GetCollectionTitle()
+    {
+        return "Academic Positions";
+    }
+    
     protected function PrepareItemForDisplay($item)
     {
         parent::PrepareItemForDisplay($item);
         
         $item->ID = filter_var($item->ID, FILTER_SANITIZE_NUMBER_INT);
-        $item->Period = filter_var($item->Period, FILTER_SANITIZE_STRING);
-        $item->Position = filter_var($item->Position, FILTER_SANITIZE_STRING);
-        $item->Place = filter_var($item->Place, FILTER_SANITIZE_STRING);
+        $item->Period = filter_var($item->Period, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $item->Position = filter_var($item->Position, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $item->Place = filter_var($item->Place, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     }
     
     protected function ValidateItem($item)
