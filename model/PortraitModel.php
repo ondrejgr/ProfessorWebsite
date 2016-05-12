@@ -1,19 +1,15 @@
 <?php
 namespace gratz;
 
-include "model/FileUploadUtils.php";
 /**
  * Description of Person
  *
  * @author ondrej.gratz
  */
 class PortraitModel extends \gratz\BaseModel {
-    private $fileUploadUtils;
-    
     public function __construct($pageName) 
     {
         parent::__construct($pageName, TRUE);
-        $this->fileUploadUtils = new FileUploadUtils();
     }
     
     function __destruct() 

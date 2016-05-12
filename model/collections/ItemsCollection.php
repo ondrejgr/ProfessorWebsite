@@ -140,11 +140,10 @@ class ItemsCollection {
             $this->CheckItemInsertable($item);
             $obj = (array)$item;
             unset($obj["ID"]);
+           
+            $sth->execute($obj);
             
-            if (!$sth->execute($obj))
-            {
-                throw new \GratzException("Database insert failed");
-            }
+            $this->OnAfterInsertItem($item);
         }
 
         $this->Load();
@@ -165,10 +164,7 @@ class ItemsCollection {
             $this->CheckItemUpdateable($item);
             $obj = (array)$item;
             
-            if (!$sth->execute($obj))
-            {
-                throw new \GratzException("Database update failed");
-            }
+            $sth->execute($obj);
         }
 
         $this->Load();
@@ -185,8 +181,19 @@ class ItemsCollection {
         foreach($keys as $id)
         {
             $sth->execute(array(':ID' => $id));
+            $this->OnAfterDeleteItem($id);
         }
 
         $this->Load();
+    }
+    
+    protected function OnAfterInsertItem($item)
+    {
+        
+    }
+    
+    protected function OnAfterDeleteItem($id)
+    {
+        
     }
 }

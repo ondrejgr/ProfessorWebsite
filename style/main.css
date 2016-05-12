@@ -31,6 +31,12 @@
         text-align: left;
     }
     
+    .ui-widget 
+    {
+        font-family: Timers New Roman;
+        font-size: .9em;
+    }
+    
     .form
     {
         display: table;

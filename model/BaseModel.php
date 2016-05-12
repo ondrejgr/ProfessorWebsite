@@ -2,9 +2,11 @@
 namespace gratz;
 include "model/NavItemsLoader.php";
 include "model/DbInfoView.php";
+include "model/FileUploadUtils.php";
 
 class BaseModel {
     /* @var $pdo PDO */
+    protected $fileUploadUtils;
     protected $pdo = NULL;
     protected $cmdGetDbInfoItem;
     protected $cmdSetDbInfoItem;
@@ -222,6 +224,7 @@ class BaseModel {
     
     public function __construct($pageName, $isEditor = FALSE) 
     {
+        $this->fileUploadUtils = new FileUploadUtils();
         $this->isEditor = $isEditor;
         $this->pageName = $pageName;
         
