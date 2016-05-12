@@ -25,17 +25,17 @@ class PortraitModel extends \gratz\BaseModel {
     
     public function setPortraitSmall($image)
     {
-        if ($this->fileUploadUtils->IsFilePosted($image))
+        if (FileUploadUtils::IsFilePosted($image))
         {
-            $this->fileUploadUtils->CheckAndUploadImage($image, $this->portraitSmallUrl);
+            FileUploadUtils::CheckAndUploadImage($image, $this->portraitSmallUrl);
         }
     }
     
     public function setPortrait($image)
     {
-        if ($this->fileUploadUtils->IsFilePosted($image))
+        if (FileUploadUtils::IsFilePosted($image))
         {
-            $this->fileUploadUtils->CheckAndUploadImage($image, $this->portraitUrl);
+            FileUploadUtils::CheckAndUploadImage($image, $this->portraitUrl);
         }
     }
 }

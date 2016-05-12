@@ -4,6 +4,7 @@
             var fileInput = $('<input/>').attr('type','file').attr('name','dp[File][]').attr('accept', 'image').attr('style', 'width: 25em').hide();
             var div = $('<tr></tr>');
                 $('<input/>').attr('type','hidden').attr('name','dp[ID][]').val(obj.ID).appendTo(div);
+                $('<input/>').attr('type','hidden').attr('name','dp[FileName][]').val(obj.FileName).appendTo(div);
                 $('<td></td>').append($('<input/>').attr('type','date').datepicker({ dateFormat: 'dd.mm.yy'}).attr('name','dp[Date][]').attr('pattern', '(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}').attr('maxlength', '10').attr('required', 'true').attr('style', 'width: 6em').val(obj.Date)).appendTo(div);
                 $('<td></td>').append($('<input/>').attr('type','text').attr('name','dp[Title][]').attr('maxlength', '50').attr('required', 'true').attr('style', 'width: 15em').val(obj.Title)).appendTo(div);
                 $('<td></td>').append(fileInput).appendTo(div);

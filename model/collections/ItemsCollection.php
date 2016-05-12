@@ -57,6 +57,7 @@ class ItemsCollection {
 
         while ($item = $sth->fetch())
         {
+            $this->OnItemLoaded($item);
             if (!$this->doNotSanitize)
             {
                 $this->PrepareItemForDisplay($item);
@@ -126,6 +127,16 @@ class ItemsCollection {
         $item->ID = $id;            
     }
     
+    protected function UnsetExtraProps(&$obj)
+    {
+    
+    }
+    
+    protected function OnItemLoaded($item)
+    {
+        
+    }
+    
     public function InsertItems($items)
     {
         if (!is_array($items) || count($items) == 0)
@@ -140,7 +151,8 @@ class ItemsCollection {
             $this->CheckItemInsertable($item);
             $obj = (array)$item;
             unset($obj["ID"]);
-           
+            $this->UnsetExtraProps($obj);
+     
             $sth->execute($obj);
             
             $this->OnAfterInsertItem($item);
@@ -163,6 +175,7 @@ class ItemsCollection {
         {
             $this->CheckItemUpdateable($item);
             $obj = (array)$item;
+            $this->UnsetExtraProps($obj);
             
             $sth->execute($obj);
         }

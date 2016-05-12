@@ -27,14 +27,50 @@ class GalleryView extends BaseView
     {
         $this->RenderContent();
 ?>
-        <div>
-      <a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-3.jpg" data-lightbox="example-set" data-title="Click the right half of the image to move forward."><img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-3.jpg" alt=""/></a>
-      <a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-4.jpg" data-lightbox="example-set" data-title="Or press the right arrow on your keyboard."><img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-4.jpg" alt="" /></a>
-      <a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-5.jpg" data-lightbox="example-set" data-title="The next image in the set is preloaded as you're viewing."><img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-5.jpg" alt="" /></a>
-      <a class="example-image-link" href="http://lokeshdhakar.com/projects/lightbox2/images/image-6.jpg" data-lightbox="example-set" data-title="Click anywhere outside the image or the X to the right to close."><img class="example-image" src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-6.jpg" alt="" /></a>         
+        <div class="image-collections">
+<?php
+        $this->RenderCollection($this->model->gallery);
+?>
         </div>
         <script src="js/lightbox-plus-jquery.min.js"></script>
 <?php        
+    }
+    
+    protected function RenderCollection($collection)
+    {
+        if (!is_a($collection, '\Gratz\ItemsCollection'))
+        {
+            throw new \GratzException("Unable to render collection - invalid object type");
+        }
+?>
+                    <section class="<?php echo (new \ReflectionClass($collection))->getShortName() ?>">
+                        <div>
+<?php
+        foreach ($collection->data as $item)
+        {
+?>
+                            
+<?php
+            $this->RenderCollectionItem($item);
+?>
+
+                            
+<?php
+        }
+?>
+                        </div>
+                    </section>
+<?php
+    }
+    
+    protected function RenderCollectionItem($item)
+    {
+?>
+        <a class="gallery-link" href="<?php echo "gallery/" . $item->FileName ?>" data-lightbox="example-set" 
+           data-title="<?php echo $item->Date . " " . $item->Title ?>">
+            <img class="gallery-item" src="<?php echo "gallery/thumbs/tb_" . $item->FileName ?>" alt="<?php echo $item->Title ?>"/>
+        </a>
+<?php
     }
 }
 

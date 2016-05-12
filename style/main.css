@@ -110,7 +110,29 @@
     {
         display: table-cell;
     }
+
+    .image-collections
+    {
+        clear: both;
+    }
     
+    .image-collections section
+    {
+        margin: .5em .5em 1em 0em;
+        padding: 0em 0em 0em 0em;
+    }
+    
+    .image-collections section ul
+    {
+        list-style: none;
+        padding: 0;
+    }
+
+    .image-collections section ul li
+    {
+        padding: .5em .5em .5em .5em;
+    }
+        
     .collections
     {
         clear: both;

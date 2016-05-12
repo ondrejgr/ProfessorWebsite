@@ -55,12 +55,10 @@ class GalleryEditController extends BaseController {
         $this->model->gallery->UpdateItems($itemsToUpdate);
     }
     
-    private function AssignFiles($items)
+    private function GetPostedDataConvertedToArray()
     {
-        $itemsCount = count($items);
-
         $files = array();
-        $fdata=$_FILES["dp"];
+        $fdata = $_FILES["dp"];
         if (!is_array($fdata['name']) || !is_array($fdata['name']['File']))
         {
             throw new \GratzException("Invalid data format");
@@ -73,7 +71,14 @@ class GalleryEditController extends BaseController {
                 'error'     => $fdata['error']['File'][$i],
                 'tmp_name' => $fdata['tmp_name']['File'][$i]);
         }
-       
+
+        return $files;
+    }
+    
+    private function AssignFiles($items)
+    {
+        $itemsCount = count($items);
+        $files = $this->GetPostedDataConvertedToArray();
         if (count($files) != $itemsCount)
         {
             throw new \GratzException("No file posted for some entries ");
@@ -83,9 +88,6 @@ class GalleryEditController extends BaseController {
         {
             $this->AssignFileToItem($items[$i], $files[$i]);
         }
-
-        print_r($items);
-        die();
     }
     
     private function AssignFileToItem($item, $file)

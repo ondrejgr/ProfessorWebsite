@@ -13,9 +13,9 @@ namespace gratz;
  *
  * @author ondrej.gratz
  */
-class FileUploadUtils 
+abstract class FileUploadUtils 
 {
-    public function CheckImageFormat($image)
+    static public function CheckImageFormat($image)
     {
         $finfo = new \finfo(FILEINFO_MIME_TYPE);
         if (false === $ext = array_search(
@@ -29,10 +29,15 @@ class FileUploadUtils
         )) {
             throw new \GratzException('Invalid image format');
         }
+        return $ext;
     }
     
-    public function CheckFileUploadError($image)
+    static public function CheckFileUploadError($image)
     {
+        if (!isset($image['error']) || is_array($image['error']))
+        {
+            throw new \GratzException('Unable to upload file');
+        }
         switch ($image['error']) 
         {
             case UPLOAD_ERR_OK:
@@ -47,7 +52,7 @@ class FileUploadUtils
         }        
     }
     
-    public function IsFilePosted($image)
+    static public function IsFilePosted($image)
     {
         if (!isset($image['error']) || is_array($image['error']))
         {
@@ -55,19 +60,21 @@ class FileUploadUtils
         }
         return $image['error'] != UPLOAD_ERR_NO_FILE;
     }
+
+    static public function GetImageExtension($image)
+    {
+        FileUploadUtils::CheckFileUploadError($image);        
+        return FileUploadUtils::CheckImageFormat($image);
+    }
     
-    public function CheckAndUploadImage($image, $targetFileName)
+    static public function CheckAndUploadImage($image, $targetFileName)
     {
         if (!is_string($targetFileName) || strlen($targetFileName) == 0)
         {
             throw new \GratzException('Target file name not specified');
         }
-        if (!isset($image['error']) || is_array($image['error']))
-        {
-            throw new \GratzException('Unable to upload file');
-        }
-        $this->CheckFileUploadError($image);
-        $this->CheckImageFormat($image);
+        FileUploadUtils::CheckFileUploadError($image);        
+        FileUploadUtils::CheckImageFormat($image);
         if (!getimagesize($image['tmp_name']))
         {
             throw new \GratzException('Invalid image file uploaded');
