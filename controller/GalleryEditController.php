@@ -58,6 +58,10 @@ class GalleryEditController extends BaseController {
     private function GetPostedDataConvertedToArray()
     {
         $files = array();
+        if (!array_key_exists("dp", $_FILES))
+        {
+            return $files;
+        }
         $fdata = $_FILES["dp"];
         if (!is_array($fdata['name']) || !is_array($fdata['name']['File']))
         {
@@ -79,12 +83,12 @@ class GalleryEditController extends BaseController {
     {
         $itemsCount = count($items);
         $files = $this->GetPostedDataConvertedToArray();
-        if (count($files) != $itemsCount)
+        if (count($files) != 0 && count($files) != $itemsCount)
         {
             throw new \GratzException("No file posted for some entries ");
         }
         
-        for($i = 0; $i < $itemsCount; ++$i)
+        for($i = 0; $i < count($files); ++$i)
         {
             $this->AssignFileToItem($items[$i], $files[$i]);
         }
