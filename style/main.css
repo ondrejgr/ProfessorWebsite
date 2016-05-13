@@ -133,6 +133,77 @@
         padding: .5em .5em .5em .5em;
     }
         
+    .research-collections
+    {
+        clear: both;
+    }
+    
+    .research-collections section
+    {
+        margin: .5em .5em 1em 0em;
+        padding: 0em 0em 0em 0em;
+    }
+    
+    .research-collections section ul
+    {
+        list-style: none;
+        border-style: none none solid none;
+        padding: 0;
+    }
+
+    .research-collections section ul li
+    {
+        border-style: solid solid none solid;
+        padding: .5em .5em .5em .5em;
+    }
+
+    .research-collections section ul li [data-prop-name="ID"] 
+    {
+        display: none;
+    }
+
+    /* BEGIN RESEARCH POS */
+    .research-collections section .collection-title
+    {
+        margin: 2em 0em 0em .5em;
+        font-family: Verdana, Arial;
+        font-size: 1em;
+        font-weight: bold;
+    }
+    .research-collections section ul li [data-prop-name="Title"] 
+    {
+        cursor: pointer; cursor: hand;     
+        font-weight: bold;
+        clear: both;
+        width: 24em;
+    }
+    
+    .research-collections section ul li [data-prop-name="ShortText"] 
+    {
+        cursor: pointer; cursor: hand;
+        font-style: italic;
+        width: 24em;
+    }
+
+    .research-collections section ul li [data-prop-name="Content"] 
+    {
+        display: none;
+        font-size: .9em;
+        width: 20em;
+        margin: 0em 0em 0em 3em;
+    }
+    
+    .research-collections section ul .collection-row:nth-of-type(odd)
+    {
+        background-color: lightyellow;
+    }
+
+    .research-collections section ul .collection-row:nth-of-type(even)
+    {
+        background-color: white;
+    }
+
+    /* END RESEARCH POS */
     .collections
     {
         clear: both;
