@@ -40,6 +40,11 @@ class ItemsCollection {
         $this->Load();
     }
     
+    protected function GetSelectSQLFields()
+    {
+        return "*";
+    }
+    
     public function Load()
     {
         $this->data = array();
@@ -49,7 +54,7 @@ class ItemsCollection {
             $orderBy = "ORDER BY $this->orderBy";
         }
         
-        $sth = $this->pdo->query("SELECT * FROM $this->baseTableName $orderBy;", \PDO::FETCH_OBJ);
+        $sth = $this->pdo->query("SELECT " . $this->GetSelectSQLFields() . " FROM $this->baseTableName $orderBy;", \PDO::FETCH_OBJ);
         if (!$sth)
         {
             throw new \Exception("Unable to load $this->baseTableName");

@@ -170,18 +170,47 @@
         font-size: 1em;
         font-weight: bold;
     }
+
+    .publications-collections section ul li [data-prop-name="PubType"] 
+    {
+        display: none;
+    }
+
+    .publications-collections section ul li [data-prop-name="PubTypeTitle"] 
+    {
+        float: left;
+        font-style: italic;
+        font-size: .8em;
+        vertical-align: middle;
+    }
+
     .publications-collections section ul li [data-prop-name="Author"] 
     {
-        cursor: pointer; cursor: hand;     
-        font-weight: bold;
+        cursor: pointer; cursor: hand;
         clear: both;
-        width: 24em;
+    }
+
+    .publications-collections section ul li [data-prop-name="Year"] 
+    {
+        float: left;
+        margin: 0em 0em 0em .5em;
+    }
+
+    .publications-collections section ul li [data-prop-name="Month"]:before 
+    {
+        content: '/';
+    }
+
+    .publications-collections section ul li [data-prop-name="Month"] 
+    {
+        float: left;
+        margin: 0em 0em 0em 0em;
     }
     
     .publications-collections section ul li [data-prop-name="Title"] 
     {
         cursor: pointer; cursor: hand;
-        font-style: italic;
+        font-weight: bold;
         width: 24em;
     }
 

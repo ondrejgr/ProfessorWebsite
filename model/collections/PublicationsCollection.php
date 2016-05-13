@@ -61,4 +61,33 @@ class PublicationsCollection extends ItemsCollection
             throw new \GratzValidationException("Author must be specified for every Publication");
         }
     }
+    
+    protected function OnItemLoaded($item) 
+    {
+        if ($item->PubType)
+        {
+            $PubTypeTitle = "unknown";
+            switch($item->PubType)
+            {
+                case 1:
+                    $PubTypeTitle = "Journal paper";
+                    break;
+                case 2:
+                    $PubTypeTitle = "Conference paper";
+                    break;
+                case 3:
+                    $PubTypeTitle = "Book chapter";
+                    break;
+                case 4:
+                    $PubTypeTitle = "Book";
+                    break;
+            }
+            $item->PubTypeTitle = $PubTypeTitle;
+        }
+    }
+    
+    protected function GetSelectSQLFields()
+    {
+        return "ID, PubType, '' As PubTypeTitle, Year, Month, Author, Title, Detail";
+    }
 }
