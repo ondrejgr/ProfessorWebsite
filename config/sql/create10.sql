@@ -73,3 +73,14 @@ CREATE TABLE IF NOT EXISTS Teaching (
     Title NVARCHAR(50) NOT NULL,
     Detail TEXT NULL
 ) COLLATE 'utf8_czech_ci';
+
+DROP TABLE IF EXISTS Publications;
+CREATE TABLE IF NOT EXISTS Publications (
+    ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    PubType INT NOT NULL,
+    Year INT NOT NULL,
+    Month INT NOT NULL,
+    Title NVARCHAR(100) NOT NULL,
+    Author NVARCHAR(100) NOT NULL,
+    Detail TEXT NULL
+) COLLATE 'utf8_czech_ci';

@@ -132,7 +132,79 @@
     {
         padding: .5em .5em .5em .5em;
     }
-        
+    /* BEGIN PUBLICATIO POS */
+    .publications-collections
+    {
+        clear: both;
+    }
+    
+    .publications-collections section
+    {
+        margin: .5em .5em 1em 0em;
+        padding: 0em 0em 0em 0em;
+    }
+    
+    .publications-collections section ul
+    {
+        list-style: none;
+        border-style: none none solid none;
+        padding: 0;
+    }
+
+    .publications-collections section ul li
+    {
+        border-style: solid solid none solid;
+        padding: .5em .5em .5em .5em;
+    }
+
+    .publications-collections section ul li [data-prop-name="ID"] 
+    {
+        display: none;
+    }
+
+    
+    .publications-collections section .collection-title
+    {
+        margin: 2em 0em 0em .5em;
+        font-family: Verdana, Arial;
+        font-size: 1em;
+        font-weight: bold;
+    }
+    .publications-collections section ul li [data-prop-name="Author"] 
+    {
+        cursor: pointer; cursor: hand;     
+        font-weight: bold;
+        clear: both;
+        width: 24em;
+    }
+    
+    .publications-collections section ul li [data-prop-name="Title"] 
+    {
+        cursor: pointer; cursor: hand;
+        font-style: italic;
+        width: 24em;
+    }
+
+    .publications-collections section ul li [data-prop-name="Detail"] 
+    {
+        display: none;
+        font-size: .9em;
+        width: 20em;
+        margin: 0em 0em 0em 3em;
+    }
+    
+    .publications-collections section ul .collection-row:nth-of-type(odd)
+    {
+        background-color: lightyellow;
+    }
+
+    .publications-collections section ul .collection-row:nth-of-type(even)
+    {
+        background-color: white;
+    }
+
+    /* END PUBLICATIOS POS */
+    
     .research-collections
     {
         clear: both;
