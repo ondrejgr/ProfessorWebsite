@@ -3,9 +3,9 @@
 define('BASE_URL', 'http://localhost/');
 abstract class Configuration
 {
-    const ServerName = "eu-cdbr-azure-west-d.cloudapp.net";
-    const DatabaseName = "gratzondb";
+    const ServerName = "localhost";
+    const DatabaseName = "databasename";
     
-    const UserName = "ba072f630cdf08";
-    const Password = "795b4ced";
+    const UserName = "sqlusername";
+    const Password = "sqlpassword";
 }
