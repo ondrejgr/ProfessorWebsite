@@ -92,16 +92,17 @@ class PublicationsView extends BaseView
         $("#PubTypeFilter").change(function(){
         
             var pubs = $('#publications');
-            // show all
-            var o = pubs.find("div[data-prop-name='PubType']");
-            var r = o.parent();
-            //r.hide();
-
-            // filter
-            o = pubs.find("div[data-prop-name='PubType']");
-            o.show();
-            var r = o.parent();
-            r.show();
+            var allItems = pubs.find("div[data-prop-name='PubType']");
+            if ($("#PubTypeFilter").val() == 0)
+            {
+                allItems.parent().show();
+            }
+            else
+            {
+                allItems.parent().hide();
+                filteredItems = pubs.find("div[data-prop-name='PubType']:contains('" + $("#PubTypeFilter").val() + "')");
+                filteredItems.parent().show();
+            }
         });
 <?php
     }

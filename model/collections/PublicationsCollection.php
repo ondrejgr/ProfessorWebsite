@@ -41,7 +41,11 @@ class PublicationsCollection extends ItemsCollection
         {
             throw new \GratzValidationException("Year (1900-2100) must be specified for every Publication");
         }
-
+        
+        if (strlen($item->Month) > 1)
+        {
+           $item->Month = ltrim($item->Month, "0");
+        }
         $item->Month = filter_var($item->Month, FILTER_VALIDATE_INT);
         if (!is_int($item->Month) || $item->Month < 1 || $item->Month > 12)
         {
